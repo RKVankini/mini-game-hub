@@ -1,21 +1,28 @@
+/* ===============================
+   MEMORY GAME – FINAL STYLES
+   =============================== */
+
 .memory-game {
   text-align: center;
 }
 
+/* GAME GRID */
 .grid {
   display: grid;
-  gap: 16px;
-  max-width: 520px;
-  margin: 25px auto;
+  gap: 18px;
+  max-width: 620px;          /* 🔥 Bigger board */
+  margin: 30px auto;
+  padding: 10px;
 }
 
-/* CARD */
+/* CARD – PERFECT SQUARE */
 .card {
-  height: 100px;
-  font-size: 2.5rem;
-  border-radius: 14px;
+  aspect-ratio: 1 / 1;       /* ✅ Always square */
+  width: 100%;
+  font-size: 3rem;           /* 🔥 Bigger icons */
+  border-radius: 16px;
   background: #4f46e5;
-  color: white;
+  color: #ffffff;
   cursor: pointer;
   user-select: none;
 
@@ -23,27 +30,61 @@
   align-items: center;
   justify-content: center;
 
+  transform-style: preserve-3d;
   transform: rotateY(0deg);
-  transition: transform 0.4s ease, background 0.3s ease;
+  transition: transform 0.45s ease, background 0.3s ease;
 }
 
-/* FLIP EFFECT */
+/* FLIPPED CARD */
 .card.flipped {
   transform: rotateY(180deg);
   background: #6366f1;
 }
 
+/* MATCHED CARD */
 .card.matched {
   background: #22c55e;
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
-/* BUTTON */
-.restart {
-  margin-top: 18px;
-  padding: 10px 20px;
+/* STATUS TEXT */
+.status {
+  margin: 14px 0;
   font-size: 1rem;
-  border-radius: 10px;
+  font-weight: 500;
+}
+
+/* LEVEL SELECT */
+#level {
+  margin: 10px 0 15px;
+  padding: 6px 10px;
+  font-size: 0.95rem;
+  border-radius: 6px;
+}
+
+/* RESTART BUTTON */
+.restart {
+  margin-top: 20px;
+  padding: 12px 26px;
+  font-size: 1.05rem;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
+  background: #0ea5e9;
+  color: #ffffff;
+}
+
+.restart:hover {
+  background: #0284c7;
+}
+
+/* MOBILE OPTIMIZATION */
+@media (max-width: 600px) {
+  .grid {
+    max-width: 92%;
+  }
+
+  .card {
+    font-size: 2.4rem;
+  }
 }
