@@ -2,10 +2,15 @@ const grid = document.getElementById("grid");
 const movesEl = document.getElementById("moves");
 const restartBtn = document.getElementById("restart");
 const timeEl = document.getElementById("time");
+const levelSelect = document.getElementById("level");
 
-const icons = ["🍎","🍌","🍇","🍒","🍓","🥝","🍍","🍉"];
-let cards = [...icons, ...icons];
+/* ICON POOL */
+const iconPool = [
+  "🍎","🍌","🍇","🍒","🍓","🥝","🍍","🍉",
+  "🍑","🥭","🍋","🍊","🍐","🍈","🍏","🥥","🥑","🌽"
+];
 
+let cards = [];
 let flipped = [];
 let moves = 0;
 let lock = false;
@@ -16,7 +21,6 @@ let timer = null;
 
 function startTimer() {
   if (timer) return;
-
   timer = setInterval(() => {
     time++;
     timeEl.textContent = time;
@@ -35,7 +39,12 @@ function shuffle(array) {
 
 /* ---------- BOARD ---------- */
 function createBoard() {
+  const size = Number(levelSelect.value);   // 4 or 6
+  const totalCards = size * size;
+  const pairCount = totalCards / 2;
+
   grid.innerHTML = "";
+  grid.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
 
   moves = 0;
   time = 0;
@@ -47,11 +56,14 @@ function createBoard() {
 
   stopTimer();
 
+  const selectedIcons = iconPool.slice(0, pairCount);
+  cards = [...selectedIcons, ...selectedIcons];
+
   shuffle(cards).forEach(icon => {
     const card = document.createElement("div");
     card.className = "card";
-    card.textContent = "";
     card.dataset.icon = icon;
+    card.textContent = "";
 
     card.addEventListener("click", () => flipCard(card));
     grid.appendChild(card);
@@ -60,9 +72,11 @@ function createBoard() {
 
 /* ---------- GAME LOGIC ---------- */
 function flipCard(card) {
-  if (lock || card.classList.contains("flipped") || card.classList.contains("matched")) {
-    return;
-  }
+  if (
+    lock ||
+    card.classList.contains("flipped") ||
+    card.classList.contains("matched")
+  ) return;
 
   startTimer();
 
@@ -85,7 +99,6 @@ function checkMatch() {
     b.classList.add("matched");
     flipped = [];
 
-    // ✅ WIN CHECK
     if (document.querySelectorAll(".matched").length === cards.length) {
       stopTimer();
       setTimeout(() => {
@@ -107,6 +120,7 @@ function checkMatch() {
 
 /* ---------- EVENTS ---------- */
 restartBtn.addEventListener("click", createBoard);
+levelSelect.addEventListener("change", createBoard);
 
 /* ---------- INIT ---------- */
 createBoard();

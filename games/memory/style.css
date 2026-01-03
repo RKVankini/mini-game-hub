@@ -4,34 +4,46 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  max-width: 360px;
-  margin: 20px auto;
+  gap: 16px;
+  max-width: 520px;
+  margin: 25px auto;
 }
 
+/* CARD */
 .card {
+  height: 100px;
+  font-size: 2.5rem;
+  border-radius: 14px;
   background: #4f46e5;
   color: white;
-  font-size: 2rem;
-  height: 70px;
-  border-radius: 10px;
   cursor: pointer;
+  user-select: none;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  user-select: none;
+
+  transform: rotateY(0deg);
+  transition: transform 0.4s ease, background 0.3s ease;
 }
 
-.card.flipped,
+/* FLIP EFFECT */
+.card.flipped {
+  transform: rotateY(180deg);
+  background: #6366f1;
+}
+
 .card.matched {
   background: #22c55e;
+  transform: scale(1.05);
 }
 
+/* BUTTON */
 .restart {
-  margin-top: 15px;
-  padding: 8px 16px;
-  border-radius: 8px;
+  margin-top: 18px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
 }
