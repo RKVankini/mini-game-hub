@@ -12,6 +12,26 @@ function shuffle(array) {
   return array.sort(() => Math.random() - 0.5);
 }
 
+const timeEl = document.getElementById("time");
+
+let time = 0;
+let timer = null;
+
+function startTimer() {
+  if (timer) return;
+
+  timer = setInterval(() => {
+    time++;
+    timeEl.textContent = time;
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timer);
+  timer = null;
+}
+
+
 function createBoard() {
   grid.innerHTML = "";
   moves = 0;
