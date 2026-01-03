@@ -1,19 +1,16 @@
 const grid = document.getElementById("grid");
 const movesEl = document.getElementById("moves");
 const restartBtn = document.getElementById("restart");
+const timeEl = document.getElementById("time");
 
 const icons = ["🍎","🍌","🍇","🍒","🍓","🥝","🍍","🍉"];
 let cards = [...icons, ...icons];
+
 let flipped = [];
 let moves = 0;
 let lock = false;
 
-function shuffle(array) {
-  return array.sort(() => Math.random() - 0.5);
-}
-
-const timeEl = document.getElementById("time");
-
+/* ---------- TIMER ---------- */
 let time = 0;
 let timer = null;
 
@@ -31,13 +28,24 @@ function stopTimer() {
   timer = null;
 }
 
+/* ---------- UTILS ---------- */
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
 
+/* ---------- BOARD ---------- */
 function createBoard() {
   grid.innerHTML = "";
+
   moves = 0;
-  movesEl.textContent = moves;
+  time = 0;
   flipped = [];
   lock = false;
+
+  movesEl.textContent = moves;
+  timeEl.textContent = time;
+
+  stopTimer();
 
   shuffle(cards).forEach(icon => {
     const card = document.createElement("div");
@@ -50,8 +58,13 @@ function createBoard() {
   });
 }
 
+/* ---------- GAME LOGIC ---------- */
 function flipCard(card) {
-  if (lock || card.classList.contains("flipped")) return;
+  if (lock || card.classList.contains("flipped") || card.classList.contains("matched")) {
+    return;
+  }
+
+  startTimer();
 
   card.textContent = card.dataset.icon;
   card.classList.add("flipped");
@@ -68,16 +81,18 @@ function checkMatch() {
   const [a, b] = flipped;
 
   if (a.dataset.icon === b.dataset.icon) {
-  a.classList.add("matched");
-  b.classList.add("matched");
-  flipped = [];
+    a.classList.add("matched");
+    b.classList.add("matched");
+    flipped = [];
 
-  if (document.querySelectorAll(".matched").length === cards.length) {
-    setTimeout(() => {
-      alert(`🎉 You won in ${moves} moves!`);
-    }, 300);
-  }
-}else {
+    // ✅ WIN CHECK
+    if (document.querySelectorAll(".matched").length === cards.length) {
+      stopTimer();
+      setTimeout(() => {
+        alert(`🎉 You won in ${moves} moves and ${time} seconds!`);
+      }, 300);
+    }
+  } else {
     lock = true;
     setTimeout(() => {
       a.textContent = "";
@@ -90,6 +105,8 @@ function checkMatch() {
   }
 }
 
+/* ---------- EVENTS ---------- */
 restartBtn.addEventListener("click", createBoard);
 
+/* ---------- INIT ---------- */
 createBoard();
