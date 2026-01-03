@@ -1,24 +1,19 @@
-<link rel="stylesheet" href="games/quiz/style.css" />
+<link rel="stylesheet" href="games/quiz/style.css"/>
 
 <section class="quiz-game">
   <h2>❓ Quiz Game</h2>
 
-  <div id="quiz-box">
-    <p id="question">Question text</p>
-
-    <div id="options"></div>
-
-    <p class="info">
-      Time: <span id="time">10</span>s |
-      Score: <span id="score">0</span>
-    </p>
-
-    <button id="nextBtn" disabled>Next</button>
+  <div id="category">
+    <button data-cat="devops">DevOps</button>
+    <button data-cat="tech">Technical</button>
+    <button data-cat="fun">Fun</button>
   </div>
 
-  <div id="result" class="hidden">
-    <h3>🎉 Quiz Finished!</h3>
-    <p>Your Score: <span id="finalScore"></span></p>
-    <button id="restartQuiz">🔄 Restart Quiz</button>
+  <div id="quiz" class="hidden">
+    <div id="progress"><div id="bar"></div></div>
+    <p id="q"></p>
+    <div id="opts"></div>
+    <p id="exp"></p>
+    <button id="next">Next</button>
   </div>
 </section>

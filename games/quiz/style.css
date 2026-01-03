@@ -1,50 +1,24 @@
-.quiz-game {
-  text-align: center;
-  max-width: 500px;
-  margin: auto;
-}
-
-#question {
-  font-size: 1.2rem;
-  margin-bottom: 16px;
-}
-
-#options {
-  display: grid;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.option {
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
+/* PROGRESS BAR
+.progress {
+  width: 100%;
+  height: 10px;
   background: #e5e7eb;
+  border-radius: 6px;
+  margin-bottom: 14px;
 }
 
-.option:hover {
-  background: #d1d5db;
-}
-
-.option.correct {
+#progressBar {
+  height: 100%;
+  width: 0%;
   background: #22c55e;
-  color: white;
+  border-radius: 6px;
+  transition: width 0.3s ease;
 }
 
-.option.wrong {
-  background: #ef4444;
-  color: white;
-}
-
-.info {
-  margin-bottom: 12px;
-}
-
-#nextBtn,
-#restartQuiz {
+DIFFICULTY BUTTONS
+.difficulty {
   padding: 10px 22px;
-  font-size: 1rem;
+  margin: 6px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
@@ -52,11 +26,13 @@
   color: white;
 }
 
-#nextBtn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
+.difficulty:hover {
+  background: #4f46e5;
+} */
 
-.hidden {
-  display: none;
-}
+.quiz-game{text-align:center}
+.hidden{display:none}
+#progress{height:8px;background:#ddd;margin:10px}
+#bar{height:100%;width:0;background:#22c55e}
+button{margin:6px;padding:8px 16px}
+
