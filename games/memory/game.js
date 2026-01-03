@@ -48,10 +48,16 @@ function checkMatch() {
   const [a, b] = flipped;
 
   if (a.dataset.icon === b.dataset.icon) {
-    a.classList.add("matched");
-    b.classList.add("matched");
-    flipped = [];
-  } else {
+  a.classList.add("matched");
+  b.classList.add("matched");
+  flipped = [];
+
+  if (document.querySelectorAll(".matched").length === cards.length) {
+    setTimeout(() => {
+      alert(`🎉 You won in ${moves} moves!`);
+    }, 300);
+  }
+}else {
     lock = true;
     setTimeout(() => {
       a.textContent = "";
