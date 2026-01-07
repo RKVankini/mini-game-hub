@@ -5,43 +5,21 @@
 
   <!-- CATEGORY -->
   <div id="categoryBox">
-    <p>Select Category</p>
-    <button class="category" data-type="devops">☁️ DevOps & Cloud</button>
-    <button class="category" data-type="technical">💻 Technical</button>
-    <button class="category" data-type="fun">🎉 Fun</button>
-  </div>
-
-  <!-- DIFFICULTY -->
-  <div id="difficultyBox" class="hidden">
-    <p>Select Difficulty</p>
-    <button class="difficulty" data-time="15">Easy</button>
-    <button class="difficulty" data-time="10">Medium</button>
-    <button class="difficulty" data-time="5">Hard</button>
+    <button data-cat="devops">☁️ DevOps</button>
+    <button data-cat="technical">💻 Technical</button>
+    <button data-cat="fun">🎉 Fun</button>
   </div>
 
   <!-- QUIZ -->
   <div id="quizBox" class="hidden">
-    <div class="progress">
-      <div id="progressBar"></div>
-    </div>
-
     <p id="question"></p>
     <div id="options"></div>
 
-    <p class="info">
-      ⏱️ <span id="time">0</span>s |
-      ⭐ Score: <span id="score">0</span>
+    <p>
+      Question <span id="current">1</span> /
+      <span id="total">1</span>
     </p>
 
-    <p id="explanation" class="explanation hidden"></p>
-
-    <button id="nextBtn" disabled>Next</button>
-  </div>
-
-  <!-- RESULT -->
-  <div id="resultBox" class="hidden">
-    <h3>🎉 Quiz Completed</h3>
-    <p>Your Score: <span id="finalScore"></span></p>
-    <button id="restartQuiz">🔄 Back to Categories</button>
+    <button id="nextBtn">Next</button>
   </div>
 </section>

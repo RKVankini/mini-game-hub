@@ -1,46 +1,11 @@
 .quiz-game {
-  text-align: center;
-  max-width: 520px;
+  max-width: 500px;
   margin: auto;
+  text-align: center;
 }
 
 .hidden {
   display: none;
-}
-
-.category,
-.difficulty,
-#nextBtn,
-#restartQuiz {
-  padding: 10px 22px;
-  margin: 6px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  background: #6366f1;
-  color: white;
-}
-
-.category:hover,
-.difficulty:hover,
-#nextBtn:hover,
-#restartQuiz:hover {
-  background: #4f46e5;
-}
-
-.progress {
-  height: 10px;
-  background: #e5e7eb;
-  border-radius: 6px;
-  margin-bottom: 14px;
-}
-
-#progressBar {
-  height: 100%;
-  width: 0%;
-  background: #22c55e;
-  border-radius: 6px;
-  transition: width 0.3s ease;
 }
 
 #options {
@@ -49,32 +14,15 @@
   margin: 14px 0;
 }
 
-.option {
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  background: #e5e7eb;
-}
-
-.option.correct {
-  background: #22c55e;
-  color: white;
-}
-
-.option.wrong {
-  background: #ef4444;
-  color: white;
-}
-
-.explanation {
-  margin-top: 10px;
+button {
   padding: 10px;
   border-radius: 8px;
-  background: #f1f5f9;
-  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  background: #6366f1;
+  color: white;
 }
 
-.info {
-  margin-bottom: 10px;
+button:hover {
+  background: #4f46e5;
 }
