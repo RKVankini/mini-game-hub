@@ -1,10 +1,224 @@
-/* ======================================================
-   QUIZ GAME – FINAL STABLE BUILD
-   ====================================================== */
+// /* ======================================================
+//    QUIZ GAME – FINAL STABLE BUILD
+//    ====================================================== */
 
-/* ---------------- QUESTION BANK ---------------- */
+// /* ---------------- QUESTION BANK ---------------- */
+
+// const QUESTIONS = {
+
+  
+// };
+
+// /* ---------------- CONFIG ---------------- */
+
+// const DIFFICULTY = {
+//   easy: { count: 10, time: 15 },
+//   medium: { count: 15, time: 10 },
+//   hard: { count: 20, time: 5 }
+// };
+
+// /* ---------------- ELEMENTS ---------------- */
+
+// const categoryBox = document.getElementById("categoryBox");
+// const difficultyBox = document.getElementById("difficultyBox");
+// const quizBox = document.getElementById("quizBox");
+// const resultBox = document.getElementById("resultBox");
+
+// const questionEl = document.getElementById("question");
+// const optionsEl = document.getElementById("options");
+// const timeEl = document.getElementById("time");
+// const scoreEl = document.getElementById("score");
+// const explanationEl = document.getElementById("explanation");
+// const nextBtn = document.getElementById("nextBtn");
+// const finalScoreEl = document.getElementById("finalScore");
+// const restartBtn = document.getElementById("restartQuiz");
+// const progressBar = document.getElementById("progressBar");
+
+// /* ---------------- STATE ---------------- */
+
+// let selectedCategory = "";
+// let selectedDifficulty = "";
+// let questions = [];
+// let index = 0;
+// let score = 0;
+// let timer = null;
+// let timeLeft = 0;
+// let answered = false;
+
+// /* ---------------- HELPERS ---------------- */
+
+// function shuffle(arr) {
+//   return arr.sort(() => Math.random() - 0.5);
+// }
+
+// /* ---------------- CATEGORY ---------------- */
+
+// document.querySelectorAll(".category").forEach(btn => {
+//   btn.onclick = () => {
+//     selectedCategory = btn.dataset.type;
+//     categoryBox.classList.add("hidden");
+//     difficultyBox.classList.remove("hidden");
+//   };
+// });
+
+// /* ---------------- DIFFICULTY ---------------- */
+
+// document.querySelectorAll(".difficulty").forEach(btn => {
+//   btn.onclick = () => {
+//     selectedDifficulty = btn.textContent.toLowerCase();
+//     startQuiz();
+//   };
+// });
+
+// /* ---------------- QUIZ ---------------- */
+
+// function startQuiz() {
+//   const config = DIFFICULTY[selectedDifficulty];
+//   const available = QUESTIONS[selectedCategory].length;
+//   const count = Math.min(config.count, available);
+
+//   questions = shuffle([...QUESTIONS[selectedCategory]]).slice(0, count);
+//   index = 0;
+//   score = 0;
+
+//   scoreEl.textContent = score;
+
+//   difficultyBox.classList.add("hidden");
+//   quizBox.classList.remove("hidden");
+
+//   loadQuestion();
+// }
+
+// function startTimer() {
+//   clearInterval(timer);
+//   timeLeft = DIFFICULTY[selectedDifficulty].time;
+//   timeEl.textContent = timeLeft;
+
+//   timer = setInterval(() => {
+//     timeLeft--;
+//     timeEl.textContent = timeLeft;
+//     if (timeLeft === 0) {
+//       clearInterval(timer);
+//       lockQuestion();
+//     }
+//   }, 1000);
+// }
+
+// function loadQuestion() {
+//   answered = false;
+//   nextBtn.disabled = true;
+//   explanationEl.classList.add("hidden");
+//   optionsEl.innerHTML = "";
+
+//   const q = questions[index];
+//   questionEl.textContent = q.q;
+
+//   q.options.forEach((opt, i) => {
+//     const btn = document.createElement("button");
+//     btn.className = "option";
+//     btn.textContent = opt;
+//     btn.onclick = () => selectAnswer(i);
+//     optionsEl.appendChild(btn);
+//   });
+
+//   updateProgress();
+//   startTimer();
+// }
+
+// function selectAnswer(selected) {
+//   if (answered) return;
+//   answered = true;
+//   clearInterval(timer);
+
+//   const correct = questions[index].answer;
+
+//   document.querySelectorAll(".option").forEach((btn, i) => {
+//     btn.disabled = true;
+//     if (i === correct) btn.classList.add("correct");
+//     if (i === selected && i !== correct) btn.classList.add("wrong");
+//   });
+
+//   if (selected === correct) {
+//     score++;
+//     scoreEl.textContent = score;
+//   }
+
+//   explanationEl.textContent = questions[index].explanation;
+//   explanationEl.classList.remove("hidden");
+
+//   nextBtn.disabled = false;
+// }
+
+// function lockQuestion() {
+//   answered = true;
+//   explanationEl.textContent = "⏱️ Time’s up!";
+//   explanationEl.classList.remove("hidden");
+//   nextBtn.disabled = false;
+// }
+
+// nextBtn.onclick = () => {
+//   index++;
+//   if (index < questions.length) {
+//     loadQuestion();
+//   } else {
+//     showResult();
+//   }
+// };
+
+// function updateProgress() {
+//   progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
+// }
+
+// /* ---------------- RESULT ---------------- */
+
+// function showResult() {
+//   quizBox.classList.add("hidden");
+//   resultBox.classList.remove("hidden");
+
+//   finalScoreEl.textContent = `${score} / ${questions.length}`;
+
+//   const key = `best_${selectedCategory}_${selectedDifficulty}`;
+//   const best = localStorage.getItem(key);
+
+//   if (!best || score > best) {
+//     localStorage.setItem(key, score);
+//   }
+// }
+
+// /* ---------------- RESET ---------------- */
+
+// restartBtn.onclick = () => {
+//   resultBox.classList.add("hidden");
+//   categoryBox.classList.remove("hidden");
+// };
+
+/* ================= CONFIG ================= */
+
+const DIFFICULTY = {
+  easy: { count: 10, time: 15 },
+  medium: { count: 15, time: 10 },
+  hard: { count: 20, time: 5 }
+};
+
+/* ================= QUESTIONS ================= */
+/* (Shortened here for clarity – YOU CAN KEEP ALL 20+ PER CATEGORY) */
 
 const QUESTIONS = {
+  // fun: [
+  //   { q: "Red Planet?", options: ["Earth","Mars","Venus","Jupiter"], answer: 1, explanation: "Mars is red." },
+  //   { q: "Rainbow colors?", options: ["5","6","7","8"], answer: 2, explanation: "7 colors." },
+  //   { q: "King of Fruits?", options: ["Apple","Banana","Mango","Orange"], answer: 2, explanation: "Mango." },
+  //   { q: "Leap year days?", options: ["365","366","364","360"], answer: 1, explanation: "366 days." },
+  //   { q: "Largest ocean?", options: ["Atlantic","Indian","Pacific","Arctic"], answer: 2, explanation: "Pacific Ocean." },
+  //   { q: "Tallest animal?", options: ["Elephant","Horse","Camel","Giraffe"], answer: 3, explanation: "Giraffe." },
+  //   { q: "Alphabet letters?", options: ["24","25","26","27"], answer: 2, explanation: "26 letters." },
+  //   { q: "Festival of lights?", options: ["Holi","Diwali","Eid","Christmas"], answer: 1, explanation: "Diwali." },
+  //   { q: "Ship of desert?", options: ["Horse","Camel","Donkey","Elephant"], answer: 1, explanation: "Camel." },
+  //   { q: "Days in week?", options: ["5","6","7","8"], answer: 2, explanation: "7 days." },
+
+  //   /* add more up to 20 if needed */
+  // ],
+
   fun: [
     { q: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Venus"], answer: 1, explanation: "Mars looks red due to iron oxide." },
     { q: "How many colors are there in a rainbow?", options: ["5", "6", "7", "8"], answer: 2, explanation: "A rainbow has 7 colors." },
@@ -30,6 +244,19 @@ const QUESTIONS = {
     { q: "Which is the tallest animal?", options: ["Elephant", "Horse", "Camel", "Giraffe"], answer: 3, explanation: "Giraffe is tallest." }
   ],
 
+  // technical: [
+  //   { q: "Browser language?", options: ["Python","C","JS","Java"], answer: 2, explanation: "JavaScript." },
+  //   { q: "CSS full form?", options: ["A","B","Cascading Style Sheets","D"], answer: 2, explanation: "CSS = Cascading Style Sheets." },
+  //   { q: "JS variable?", options: ["int","var","let","define"], answer: 2, explanation: "let keyword." },
+  //   { q: "JSON parse?", options: ["parse","JSON.parse()","convert","read"], answer: 1, explanation: "JSON.parse()" },
+  //   { q: "Strict compare?", options: ["=","==","===","!="], answer: 2, explanation: "===" },
+  //   { q: "Array add?", options: ["pop","push","shift","slice"], answer: 1, explanation: "push()" },
+  //   { q: "Loop stop?", options: ["exit","break","stop","end"], answer: 1, explanation: "break" },
+  //   { q: "Boolean stores?", options: ["Text","True/False","Number","Object"], answer: 1, explanation: "Boolean values." },
+  //   { q: "Link tag?", options: ["a","link","href","url"], answer: 0, explanation: "<a> tag." },
+  //   { q: "JS comments?", options: ["##","//","<!--","**"], answer: 1, explanation: "// comments." }
+  // ],
+
   technical: [
     { q: "Which language runs in the browser?", options: ["Python", "C", "JavaScript", "Java"], answer: 2, explanation: "JavaScript runs in browsers." },
     { q: "What does CSS stand for?", options: ["Computer Style Sheets", "Creative Style System", "Cascading Style Sheets", "Colorful Style Sheets"], answer: 2, explanation: "CSS means Cascading Style Sheets." },
@@ -54,6 +281,20 @@ const QUESTIONS = {
     { q: "Which symbol is used for comments?", options: ["##", "**", "//", "<!-- -->"], answer: 2, explanation: "// is comment symbol." },
     { q: "Which keyword creates class?", options: ["function", "class", "object", "new"], answer: 1, explanation: "class creates classes." }
   ],
+
+//   devops: [
+//     { q: "CI/CD?", options: ["A","B","Continuous Integration / Deployment","D"], answer: 2, explanation: "CI/CD pipeline." },
+//     { q: "AWS storage?", options: ["EC2","RDS","S3","Lambda"], answer: 2, explanation: "S3 storage." },
+//     { q: "Docker list?", options: ["docker ps","docker run","docker build","docker img"], answer: 0, explanation: "docker ps" },
+//     { q: "Serverless?", options: ["EC2","RDS","Lambda","EBS"], answer: 2, explanation: "Lambda." },
+//     { q: "IaC tool?", options: ["Docker","Terraform","Git","Linux"], answer: 1, explanation: "Terraform." },
+//     { q: "HTTP port?", options: ["21","22","80","443"], answer: 2, explanation: "Port 80." },
+//     { q: "DNS service?", options: ["Route53","S3","VPC","ELB"], answer: 0, explanation: "Route53." },
+//     { q: "K8s unit?", options: ["Node","Pod","Service","Cluster"], answer: 1, explanation: "Pod." },
+//     { q: "Secrets?", options: ["S3","IAM","Secrets Manager","CloudTrail"], answer: 2, explanation: "Secrets Manager." },
+//     { q: "CI tool?", options: ["Git","Jenkins","Linux","Docker"], answer: 1, explanation: "Jenkins." }
+//   ]
+// };
 
   devops: [
     { q: "What does CI/CD stand for?", options: ["Continuous Integration / Continuous Deployment", "Cloud Infrastructure", "Code Delivery", "Continuous Design"], answer: 0, explanation: "CI/CD automates build & deploy." },
@@ -81,35 +322,27 @@ const QUESTIONS = {
   ]
 };
 
-/* ---------------- CONFIG ---------------- */
+/* ================= ENGINE ================= */
 
-const DIFFICULTY = {
-  easy: { count: 10, time: 15 },
-  medium: { count: 15, time: 10 },
-  hard: { count: 20, time: 5 }
+const els = {
+  categoryBox: document.getElementById("categoryBox"),
+  difficultyBox: document.getElementById("difficultyBox"),
+  quizBox: document.getElementById("quizBox"),
+  resultBox: document.getElementById("resultBox"),
+  question: document.getElementById("question"),
+  options: document.getElementById("options"),
+  time: document.getElementById("time"),
+  score: document.getElementById("score"),
+  explanation: document.getElementById("explanation"),
+  next: document.getElementById("nextBtn"),
+  progress: document.getElementById("progressBar"),
+  finalScore: document.getElementById("finalScore"),
+  bestScore: document.getElementById("bestScore"),
+  restart: document.getElementById("restartQuiz")
 };
 
-/* ---------------- ELEMENTS ---------------- */
-
-const categoryBox = document.getElementById("categoryBox");
-const difficultyBox = document.getElementById("difficultyBox");
-const quizBox = document.getElementById("quizBox");
-const resultBox = document.getElementById("resultBox");
-
-const questionEl = document.getElementById("question");
-const optionsEl = document.getElementById("options");
-const timeEl = document.getElementById("time");
-const scoreEl = document.getElementById("score");
-const explanationEl = document.getElementById("explanation");
-const nextBtn = document.getElementById("nextBtn");
-const finalScoreEl = document.getElementById("finalScore");
-const restartBtn = document.getElementById("restartQuiz");
-const progressBar = document.getElementById("progressBar");
-
-/* ---------------- STATE ---------------- */
-
-let selectedCategory = "";
-let selectedDifficulty = "";
+let category = "";
+let difficulty = "";
 let questions = [];
 let index = 0;
 let score = 0;
@@ -117,118 +350,103 @@ let timer = null;
 let timeLeft = 0;
 let answered = false;
 
-/* ---------------- HELPERS ---------------- */
-
-function shuffle(arr) {
-  return arr.sort(() => Math.random() - 0.5);
+function shuffle(a) {
+  return a.sort(() => Math.random() - 0.5);
 }
 
-/* ---------------- CATEGORY ---------------- */
-
-document.querySelectorAll(".category").forEach(btn => {
-  btn.onclick = () => {
-    selectedCategory = btn.dataset.type;
-    categoryBox.classList.add("hidden");
-    difficultyBox.classList.remove("hidden");
+/* CATEGORY */
+document.querySelectorAll(".category").forEach(b => {
+  b.onclick = () => {
+    category = b.dataset.type;
+    els.categoryBox.classList.add("hidden");
+    els.difficultyBox.classList.remove("hidden");
   };
 });
 
-/* ---------------- DIFFICULTY ---------------- */
-
-document.querySelectorAll(".difficulty").forEach(btn => {
-  btn.onclick = () => {
-    selectedDifficulty = btn.textContent.toLowerCase();
+/* DIFFICULTY */
+document.querySelectorAll(".difficulty").forEach(b => {
+  b.onclick = () => {
+    difficulty = b.textContent.toLowerCase();
     startQuiz();
   };
 });
 
-/* ---------------- QUIZ ---------------- */
-
 function startQuiz() {
-  const config = DIFFICULTY[selectedDifficulty];
-  const available = QUESTIONS[selectedCategory].length;
-  const count = Math.min(config.count, available);
+  const cfg = DIFFICULTY[difficulty];
+  const available = QUESTIONS[category].length;
+  const count = Math.min(cfg.count, available);
 
-  questions = shuffle([...QUESTIONS[selectedCategory]]).slice(0, count);
+  questions = shuffle([...QUESTIONS[category]]).slice(0, count);
   index = 0;
   score = 0;
+  els.score.textContent = score;
 
-  scoreEl.textContent = score;
-
-  difficultyBox.classList.add("hidden");
-  quizBox.classList.remove("hidden");
+  els.difficultyBox.classList.add("hidden");
+  els.quizBox.classList.remove("hidden");
 
   loadQuestion();
 }
 
-function startTimer() {
-  clearInterval(timer);
-  timeLeft = DIFFICULTY[selectedDifficulty].time;
-  timeEl.textContent = timeLeft;
-
-  timer = setInterval(() => {
-    timeLeft--;
-    timeEl.textContent = timeLeft;
-    if (timeLeft === 0) {
-      clearInterval(timer);
-      lockQuestion();
-    }
-  }, 1000);
-}
-
 function loadQuestion() {
   answered = false;
-  nextBtn.disabled = true;
-  explanationEl.classList.add("hidden");
-  optionsEl.innerHTML = "";
+  els.options.innerHTML = "";
+  els.explanation.classList.add("hidden");
+  els.next.disabled = true;
 
   const q = questions[index];
-  questionEl.textContent = q.q;
+  els.question.textContent = q.q;
 
   q.options.forEach((opt, i) => {
     const btn = document.createElement("button");
     btn.className = "option";
     btn.textContent = opt;
     btn.onclick = () => selectAnswer(i);
-    optionsEl.appendChild(btn);
+    els.options.appendChild(btn);
   });
 
-  updateProgress();
+  els.progress.style.width = `${((index + 1) / questions.length) * 100}%`;
   startTimer();
 }
 
-function selectAnswer(selected) {
+function startTimer() {
+  clearInterval(timer);
+  timeLeft = DIFFICULTY[difficulty].time;
+  els.time.textContent = timeLeft;
+
+  timer = setInterval(() => {
+    timeLeft--;
+    els.time.textContent = timeLeft;
+    if (timeLeft === 0) {
+      clearInterval(timer);
+      els.next.disabled = false;
+    }
+  }, 1000);
+}
+
+function selectAnswer(sel) {
   if (answered) return;
   answered = true;
   clearInterval(timer);
 
   const correct = questions[index].answer;
 
-  document.querySelectorAll(".option").forEach((btn, i) => {
-    btn.disabled = true;
-    if (i === correct) btn.classList.add("correct");
-    if (i === selected && i !== correct) btn.classList.add("wrong");
+  document.querySelectorAll(".option").forEach((b, i) => {
+    b.disabled = true;
+    if (i === correct) b.classList.add("correct");
+    if (i === sel && i !== correct) b.classList.add("wrong");
   });
 
-  if (selected === correct) {
+  if (sel === correct) {
     score++;
-    scoreEl.textContent = score;
+    els.score.textContent = score;
   }
 
-  explanationEl.textContent = questions[index].explanation;
-  explanationEl.classList.remove("hidden");
-
-  nextBtn.disabled = false;
+  els.explanation.textContent = questions[index].explanation;
+  els.explanation.classList.remove("hidden");
+  els.next.disabled = false;
 }
 
-function lockQuestion() {
-  answered = true;
-  explanationEl.textContent = "⏱️ Time’s up!";
-  explanationEl.classList.remove("hidden");
-  nextBtn.disabled = false;
-}
-
-nextBtn.onclick = () => {
+els.next.onclick = () => {
   index++;
   if (index < questions.length) {
     loadQuestion();
@@ -237,29 +455,17 @@ nextBtn.onclick = () => {
   }
 };
 
-function updateProgress() {
-  progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
-}
-
-/* ---------------- RESULT ---------------- */
-
 function showResult() {
-  quizBox.classList.add("hidden");
-  resultBox.classList.remove("hidden");
+  els.quizBox.classList.add("hidden");
+  els.resultBox.classList.remove("hidden");
 
-  finalScoreEl.textContent = `${score} / ${questions.length}`;
+  els.finalScore.textContent = `${score} / ${questions.length}`;
 
-  const key = `best_${selectedCategory}_${selectedDifficulty}`;
-  const best = localStorage.getItem(key);
+  const key = `best_${category}_${difficulty}`;
+  const best = localStorage.getItem(key) || 0;
+  if (score > best) localStorage.setItem(key, score);
 
-  if (!best || score > best) {
-    localStorage.setItem(key, score);
-  }
+  els.bestScore.textContent = `Best Score: ${localStorage.getItem(key)}`;
 }
 
-/* ---------------- RESET ---------------- */
-
-restartBtn.onclick = () => {
-  resultBox.classList.add("hidden");
-  categoryBox.classList.remove("hidden");
-};
+els.restart.onclick = () => location.reload();
