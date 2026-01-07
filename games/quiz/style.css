@@ -1,6 +1,30 @@
-/* PROGRESS BAR
+.quiz-game {
+  text-align: center;
+  max-width: 520px;
+  margin: auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.category,
+.difficulty {
+  padding: 10px 22px;
+  margin: 6px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: #6366f1;
+  color: white;
+}
+
+.category:hover,
+.difficulty:hover {
+  background: #4f46e5;
+}
+
 .progress {
-  width: 100%;
   height: 10px;
   background: #e5e7eb;
   border-radius: 6px;
@@ -15,24 +39,38 @@
   transition: width 0.3s ease;
 }
 
-DIFFICULTY BUTTONS
-.difficulty {
-  padding: 10px 22px;
-  margin: 6px;
+#options {
+  display: grid;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.option {
+  padding: 10px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
-  background: #6366f1;
+  background: #e5e7eb;
+}
+
+.option.correct {
+  background: #22c55e;
   color: white;
 }
 
-.difficulty:hover {
-  background: #4f46e5;
-} */
+.option.wrong {
+  background: #ef4444;
+  color: white;
+}
 
-.quiz-game{text-align:center}
-.hidden{display:none}
-#progress{height:8px;background:#ddd;margin:10px}
-#bar{height:100%;width:0;background:#22c55e}
-button{margin:6px;padding:8px 16px}
+.explanation {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  font-size: 0.95rem;
+}
 
+.info {
+  margin-bottom: 10px;
+}
