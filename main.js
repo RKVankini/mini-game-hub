@@ -18,6 +18,11 @@ function loadHome() {
           <p>How fast are you?</p>
         </div>
 
+        <div class="game-card" onclick="loadGame('color-sort')">
+          <h3>🧪 Color Sort Puzzle</h3>
+          <p>Logic-based puzzle with levels & hints</p>
+        </div>
+
         <div class="game-card" onclick="loadGame('quiz')">
           <h3>❓ Quiz Game</h3>
           <p>Answer & score</p>
