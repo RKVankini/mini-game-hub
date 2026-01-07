@@ -1,0 +1,88 @@
+.sliding-puzzle {
+  text-align: center;
+  max-width: 420px;
+  margin: auto;
+  padding: 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 20px auto;
+}
+
+.tile {
+  aspect-ratio: 1 / 1;
+  font-size: 2rem;
+  font-weight: bold;
+  border-radius: 14px;
+  background: #6366f1;
+  color: white;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  user-select: none;
+  transition: transform 0.25s ease, background 0.2s ease;
+}
+
+.tile:hover:not(.empty) {
+  background: #4f46e5;
+}
+
+.tile.empty {
+  background: transparent;
+  cursor: default;
+}
+
+.status {
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+#restart,
+.back-btn {
+  margin-top: 14px;
+  padding: 8px 18px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: #4f46e5;
+  color: white;
+}
+
+/* MODAL */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-box {
+  background: white;
+  padding: 22px;
+  border-radius: 16px;
+  text-align: center;
+  animation: popIn 0.3s ease;
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
