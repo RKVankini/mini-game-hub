@@ -28,7 +28,6 @@ function loadHome() {
           <p>Answer & score</p>
         </div>
 
-        <!-- ✅ FIFTH GAME -->
         <div class="game-card" onclick="loadGame('sliding-puzzle')">
           <h3>🧩 Sliding Puzzle</h3>
           <p>Rearrange tiles to solve the puzzle</p>
