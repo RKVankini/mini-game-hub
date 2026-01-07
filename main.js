@@ -27,6 +27,12 @@ function loadHome() {
           <h3>❓ Quiz Game</h3>
           <p>Answer & score</p>
         </div>
+
+        <!-- ✅ FIFTH GAME -->
+        <div class="game-card" onclick="loadGame('sliding-puzzle')">
+          <h3>🧩 Sliding Puzzle</h3>
+          <p>Rearrange tiles to solve the puzzle</p>
+        </div>
       </div>
     </section>
   `;
@@ -37,23 +43,31 @@ function loadGame(game) {
   app.innerHTML = `
     <button onclick="loadHome()">⬅ Back</button>
     <div id="gameContainer" style="margin-top:20px;">
-      <h2>Loading ${game}...</h2>
+      <h2>Loading ${game.replace("-", " ")}...</h2>
     </div>
   `;
 
+  // 🧹 Remove previously loaded game script (VERY IMPORTANT)
+  const oldScript = document.getElementById("gameScript");
+  if (oldScript) oldScript.remove();
+
   fetch(`games/${game}/index.html`)
-    .then(res => res.text())
+    .then(res => {
+      if (!res.ok) throw new Error("Game not found");
+      return res.text();
+    })
     .then(html => {
       document.getElementById("gameContainer").innerHTML = html;
 
       const script = document.createElement("script");
       script.src = `games/${game}/game.js`;
+      script.id = "gameScript";
       script.defer = true;
       document.body.appendChild(script);
     })
     .catch(() => {
       document.getElementById("gameContainer").innerHTML =
-        "<p>Game not found.</p>";
+        "<p>❌ Game not found.</p>";
     });
 }
 
