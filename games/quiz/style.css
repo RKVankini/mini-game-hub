@@ -9,7 +9,9 @@
 }
 
 .category,
-.difficulty {
+.difficulty,
+#nextBtn,
+#restartQuiz {
   padding: 10px 22px;
   margin: 6px;
   border-radius: 10px;
@@ -20,7 +22,9 @@
 }
 
 .category:hover,
-.difficulty:hover {
+.difficulty:hover,
+#nextBtn:hover,
+#restartQuiz:hover {
   background: #4f46e5;
 }
 

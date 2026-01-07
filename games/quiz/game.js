@@ -1,4 +1,4 @@
-/* ================= QUESTION SETS ================= */
+/* ================= QUESTION BANK ================= */
 
 const QUIZ = {
   devops: [
@@ -11,13 +11,13 @@ const QUIZ = {
         "Continuous Improvement / Continuous Design"
       ],
       answer: 0,
-      explanation: "CI/CD automates build, test, and deployment."
+      explanation: "CI/CD automates build, testing, and deployment."
     },
     {
-      q: "Which AWS service stores objects?",
+      q: "Which AWS service is used for object storage?",
       options: ["EC2", "RDS", "S3", "Lambda"],
       answer: 2,
-      explanation: "Amazon S3 is used for object storage."
+      explanation: "Amazon S3 is designed for object storage."
     }
   ],
 
@@ -26,7 +26,7 @@ const QUIZ = {
       q: "Which language runs in the browser?",
       options: ["Python", "C", "JavaScript", "Java"],
       answer: 2,
-      explanation: "JavaScript runs directly in browsers."
+      explanation: "JavaScript runs directly inside web browsers."
     },
     {
       q: "What does CSS stand for?",
@@ -79,9 +79,10 @@ const progressBar = document.getElementById("progressBar");
 let questions = [];
 let index = 0;
 let score = 0;
-let time = 10;
-let timer = null;
 let timeLimit = 10;
+let time = 0;
+let timer = null;
+let answered = false;
 
 /* ================= HELPERS ================= */
 
@@ -130,12 +131,14 @@ function startTimer() {
     timeEl.textContent = time;
     if (time === 0) {
       clearInterval(timer);
+      answered = true;
       nextBtn.disabled = false;
     }
   }, 1000);
 }
 
 function loadQuestion() {
+  answered = false;
   nextBtn.disabled = true;
   optionsEl.innerHTML = "";
   explanationEl.classList.add("hidden");
@@ -147,7 +150,7 @@ function loadQuestion() {
     const btn = document.createElement("button");
     btn.className = "option";
     btn.textContent = opt;
-    btn.onclick = () => checkAnswer(btn, i);
+    btn.onclick = () => checkAnswer(i);
     optionsEl.appendChild(btn);
   });
 
@@ -155,9 +158,11 @@ function loadQuestion() {
   startTimer();
 }
 
-function checkAnswer(button, selected) {
-  clearInterval(timer);
+function checkAnswer(selected) {
+  if (answered) return;
+  answered = true;
 
+  clearInterval(timer);
   const correct = questions[index].answer;
 
   document.querySelectorAll(".option").forEach((btn, i) => {
