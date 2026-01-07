@@ -1,0 +1,31 @@
+<link rel="stylesheet" href="games/color-sort/style.css" />
+
+<section class="water-sort">
+  <button class="back-btn" onclick="history.back()">← Back</button>
+
+  <h2>🧪 Color Sort Puzzle</h2>
+
+  <select id="difficulty">
+    <option value="easy">Easy (4)</option>
+    <option value="medium">Medium (6)</option>
+    <option value="hard">Hard (8)</option>
+  </select>
+
+  <p id="levelText">Level 1</p>
+
+  <p>
+    Moves: <span id="moves">0</span> |
+    Best: <span id="best">--</span>
+  </p>
+
+  <div id="tubes"></div>
+
+  <div class="controls">
+    <button id="hint">💡 Hint</button>
+    <button id="undo">↩ Undo</button>
+    <button id="nextLevel" class="hidden">➡ Next Level</button>
+    <button id="reset">🔄 Reset</button>
+  </div>
+</section>
+
+<script src="games/color-sort/game.js"></script>
