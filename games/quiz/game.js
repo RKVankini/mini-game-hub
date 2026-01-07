@@ -1,196 +1,28 @@
 // /* ======================================================
 //    QUIZ GAME – FINAL STABLE BUILD
 //    ====================================================== */
+/* ================= SOUND ENGINE ================= */
 
-// /* ---------------- QUESTION BANK ---------------- */
+const sounds = {
+  click: new Audio("../../assets/sounds/click.mp3"),
+  correct: new Audio("../../assets/sounds/correct.mp3"),
+  wrong: new Audio("../../assets/sounds/wrong.mp3"),
+  timeout: new Audio("../../assets/sounds/timeout.mp3"),
+  win: new Audio("../../assets/sounds/win.mp3")
+};
 
-// const QUESTIONS = {
+// global volume
+Object.values(sounds).forEach(sound => {
+  sound.volume = 0.6;
+});
 
-  
-// };
-
-// /* ---------------- CONFIG ---------------- */
-
-// const DIFFICULTY = {
-//   easy: { count: 10, time: 15 },
-//   medium: { count: 15, time: 10 },
-//   hard: { count: 20, time: 5 }
-// };
-
-// /* ---------------- ELEMENTS ---------------- */
-
-// const categoryBox = document.getElementById("categoryBox");
-// const difficultyBox = document.getElementById("difficultyBox");
-// const quizBox = document.getElementById("quizBox");
-// const resultBox = document.getElementById("resultBox");
-
-// const questionEl = document.getElementById("question");
-// const optionsEl = document.getElementById("options");
-// const timeEl = document.getElementById("time");
-// const scoreEl = document.getElementById("score");
-// const explanationEl = document.getElementById("explanation");
-// const nextBtn = document.getElementById("nextBtn");
-// const finalScoreEl = document.getElementById("finalScore");
-// const restartBtn = document.getElementById("restartQuiz");
-// const progressBar = document.getElementById("progressBar");
-
-// /* ---------------- STATE ---------------- */
-
-// let selectedCategory = "";
-// let selectedDifficulty = "";
-// let questions = [];
-// let index = 0;
-// let score = 0;
-// let timer = null;
-// let timeLeft = 0;
-// let answered = false;
-
-// /* ---------------- HELPERS ---------------- */
-
-// function shuffle(arr) {
-//   return arr.sort(() => Math.random() - 0.5);
-// }
-
-// /* ---------------- CATEGORY ---------------- */
-
-// document.querySelectorAll(".category").forEach(btn => {
-//   btn.onclick = () => {
-//     selectedCategory = btn.dataset.type;
-//     categoryBox.classList.add("hidden");
-//     difficultyBox.classList.remove("hidden");
-//   };
-// });
-
-// /* ---------------- DIFFICULTY ---------------- */
-
-// document.querySelectorAll(".difficulty").forEach(btn => {
-//   btn.onclick = () => {
-//     selectedDifficulty = btn.textContent.toLowerCase();
-//     startQuiz();
-//   };
-// });
-
-// /* ---------------- QUIZ ---------------- */
-
-// function startQuiz() {
-//   const config = DIFFICULTY[selectedDifficulty];
-//   const available = QUESTIONS[selectedCategory].length;
-//   const count = Math.min(config.count, available);
-
-//   questions = shuffle([...QUESTIONS[selectedCategory]]).slice(0, count);
-//   index = 0;
-//   score = 0;
-
-//   scoreEl.textContent = score;
-
-//   difficultyBox.classList.add("hidden");
-//   quizBox.classList.remove("hidden");
-
-//   loadQuestion();
-// }
-
-// function startTimer() {
-//   clearInterval(timer);
-//   timeLeft = DIFFICULTY[selectedDifficulty].time;
-//   timeEl.textContent = timeLeft;
-
-//   timer = setInterval(() => {
-//     timeLeft--;
-//     timeEl.textContent = timeLeft;
-//     if (timeLeft === 0) {
-//       clearInterval(timer);
-//       lockQuestion();
-//     }
-//   }, 1000);
-// }
-
-// function loadQuestion() {
-//   answered = false;
-//   nextBtn.disabled = true;
-//   explanationEl.classList.add("hidden");
-//   optionsEl.innerHTML = "";
-
-//   const q = questions[index];
-//   questionEl.textContent = q.q;
-
-//   q.options.forEach((opt, i) => {
-//     const btn = document.createElement("button");
-//     btn.className = "option";
-//     btn.textContent = opt;
-//     btn.onclick = () => selectAnswer(i);
-//     optionsEl.appendChild(btn);
-//   });
-
-//   updateProgress();
-//   startTimer();
-// }
-
-// function selectAnswer(selected) {
-//   if (answered) return;
-//   answered = true;
-//   clearInterval(timer);
-
-//   const correct = questions[index].answer;
-
-//   document.querySelectorAll(".option").forEach((btn, i) => {
-//     btn.disabled = true;
-//     if (i === correct) btn.classList.add("correct");
-//     if (i === selected && i !== correct) btn.classList.add("wrong");
-//   });
-
-//   if (selected === correct) {
-//     score++;
-//     scoreEl.textContent = score;
-//   }
-
-//   explanationEl.textContent = questions[index].explanation;
-//   explanationEl.classList.remove("hidden");
-
-//   nextBtn.disabled = false;
-// }
-
-// function lockQuestion() {
-//   answered = true;
-//   explanationEl.textContent = "⏱️ Time’s up!";
-//   explanationEl.classList.remove("hidden");
-//   nextBtn.disabled = false;
-// }
-
-// nextBtn.onclick = () => {
-//   index++;
-//   if (index < questions.length) {
-//     loadQuestion();
-//   } else {
-//     showResult();
-//   }
-// };
-
-// function updateProgress() {
-//   progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
-// }
-
-// /* ---------------- RESULT ---------------- */
-
-// function showResult() {
-//   quizBox.classList.add("hidden");
-//   resultBox.classList.remove("hidden");
-
-//   finalScoreEl.textContent = `${score} / ${questions.length}`;
-
-//   const key = `best_${selectedCategory}_${selectedDifficulty}`;
-//   const best = localStorage.getItem(key);
-
-//   if (!best || score > best) {
-//     localStorage.setItem(key, score);
-//   }
-// }
-
-// /* ---------------- RESET ---------------- */
-
-// restartBtn.onclick = () => {
-//   resultBox.classList.add("hidden");
-//   categoryBox.classList.remove("hidden");
-// };
+function playSound(name) {
+  if (!sounds[name]) return;
+  sounds[name].currentTime = 0;
+  sounds[name].play().catch(() => {
+    // prevents autoplay errors
+  });
+}
 
 /* ================= CONFIG ================= */
 
