@@ -1,45 +1,31 @@
 const app = document.getElementById("app");
 const themeToggle = document.getElementById("themeToggle");
 
-/* ---------- HOME SCREEN ---------- */
+/* ---------- HOME ---------- */
 function loadHome() {
   app.innerHTML = `
-    <section>
-      <h2 style="margin-bottom:20px;">Choose a Game</h2>
+    <section class="home">
+      <h2>Choose a Game</h2>
 
       <div class="game-grid">
-        <div class="game-card" onclick="loadGame('memory')">
-          <h3>🧠 Memory Game</h3>
-          <p>Test your memory skills</p>
-        </div>
-
-        <div class="game-card" onclick="loadGame('reaction')">
-          <h3>⚡ Reaction Speed</h3>
-          <p>How fast are you?</p>
-        </div>
-
-        <div class="game-card" onclick="loadGame('color-sort')">
-          <h3>🧪 Color Sort Puzzle</h3>
-          <p>Logic-based puzzle with levels & hints</p>
-        </div>
-
-        <div class="game-card" onclick="loadGame('quiz')">
-          <h3>❓ Quiz Game</h3>
-          <p>Answer & score</p>
-        </div>
-
-        <div class="game-card" onclick="loadGame('sliding-puzzle')">
-          <h3>🧩 Sliding Puzzle</h3>
-          <p>Rearrange tiles to solve the puzzle</p>
-        </div>
-
-        <div class="game-card" onclick="loadGame('scramble')">
-          <h3>🔀 Word Scramble</h3>
-          <p>Unscramble the word</p>
-        </div>
-
+        ${gameCard("memory", "🧠", "Memory Game", "Test your memory skills")}
+        ${gameCard("reaction", "⚡", "Reaction Speed", "How fast are you?")}
+        ${gameCard("color-sort", "🧪", "Color Sort Puzzle", "Logic-based puzzle")}
+        ${gameCard("quiz", "❓", "Quiz Game", "Answer & score")}
+        ${gameCard("sliding-puzzle", "🧩", "Sliding Puzzle", "Rearrange tiles")}
+        ${gameCard("scramble", "🔀", "Word Scramble", "Unscramble the word")}
       </div>
     </section>
+  `;
+}
+
+/* ---------- CARD TEMPLATE ---------- */
+function gameCard(id, icon, title, desc) {
+  return `
+    <div class="game-card" onclick="loadGame('${id}')">
+      <h3>${icon} ${title}</h3>
+      <p>${desc}</p>
+    </div>
   `;
 }
 
@@ -47,17 +33,17 @@ function loadHome() {
 function loadGame(game) {
   app.innerHTML = `
     <button onclick="loadHome()">⬅ Back</button>
-    <div id="gameContainer" style="margin-top:20px;">
-      <h2>Loading ${game.replace("-", " ")}...</h2>
-    </div>
+    <div id="gameContainer" style="margin-top:24px;"></div>
   `;
 
+  // Remove previous game script
   const oldScript = document.getElementById("gameScript");
   if (oldScript) oldScript.remove();
 
+  // Load game page
   fetch(`games/${game}/index.html`)
     .then(res => {
-      if (!res.ok) throw new Error("Game not found");
+      if (!res.ok) throw new Error();
       return res.text();
     })
     .then(html => {
