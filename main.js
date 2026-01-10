@@ -13,7 +13,7 @@ function loadHome() {
         ${gameCard("color-sort", "🧪", "Color Sort Puzzle", "Logic-based puzzle")}
         ${gameCard("quiz", "❓", "Quiz Game", "Answer & score")}
         ${gameCard("sliding-puzzle", "🧩", "Sliding Puzzle", "Rearrange tiles")}
-        ${gameCard("scramble", "🔀", "Word Scramble", "Unscramble the word")}
+        ${gameCard("word-scramble", "🔀", "Word Scramble", "Unscramble the word")}
         ${gameCard("jigsaw","🧩","Jigsaw Puzzle","Complete the picture")}
       </div>
     </section>
