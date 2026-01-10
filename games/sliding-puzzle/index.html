@@ -2,15 +2,33 @@
 
 <section class="sliding-puzzle">
 
-  <button class="back-btn" onclick="history.back()">← Back</button>
+  <button class="back-btn" onclick="loadHome()">← Back</button>
 
-  <h2>🧩 Sliding Puzzle</h2>
+  <h2>🧩 Image Sliding Puzzle</h2>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <label>
+      Grid:
+      <select id="gridSize">
+        <option value="3">3 × 3</option>
+        <option value="4">4 × 4</option>
+      </select>
+    </label>
+  </div>
+
+  <!-- IMAGE PREVIEW -->
+  <div class="preview-box">
+    <p>Assemble this image 👇</p>
+    <img id="previewImage" />
+  </div>
 
   <p class="status">
     Moves: <span id="moves">0</span> |
     Time: <span id="time">0</span>s
   </p>
 
+  <!-- GAME GRID -->
   <div class="grid" id="grid"></div>
 
   <button id="restart">🔄 Restart</button>
@@ -20,11 +38,8 @@
     <div class="modal-box">
       <h3>🎉 Puzzle Solved!</h3>
       <p id="resultText"></p>
-      <p id="bestText"></p>
-      <button onclick="restartGame()">Play Again</button>
+      <button id="playAgain">Play Again</button>
     </div>
   </div>
 
 </section>
-
-<script src="games/sliding-puzzle/game.js"></script>

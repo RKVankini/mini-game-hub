@@ -2,32 +2,46 @@ const grid = document.getElementById("grid");
 const movesEl = document.getElementById("moves");
 const timeEl = document.getElementById("time");
 const restartBtn = document.getElementById("restart");
+const gridSizeSelect = document.getElementById("gridSize");
+const previewImg = document.getElementById("previewImage");
 const winModal = document.getElementById("winModal");
+const playAgainBtn = document.getElementById("playAgain");
 
-const moveSound = new Audio("assets/sounds/move.mp3");
-const winSound = new Audio("assets/sounds/win.mp3");
+/* ---------- IMAGE POOL ---------- */
+
+const IMAGES = [
+  "assets/images/puzzle1.jpg",
+  "assets/images/puzzle2.jpg",
+  "assets/images/puzzle3.jpg"
+];
+
+let currentImage = "";
+
+/* ---------- STATE ---------- */
 
 let tiles = [];
 let moves = 0;
 let time = 0;
 let timer = null;
+let SIZE = 3;
 
 /* ---------- INIT ---------- */
-
-function restartGame() {
-  winModal.classList.add("hidden");
-  init();
-}
 
 function init() {
   moves = 0;
   time = 0;
   movesEl.textContent = moves;
   timeEl.textContent = time;
-
   stopTimer();
+  winModal.classList.add("hidden");
 
-  tiles = [...Array(8).keys()].map(n => n + 1);
+  SIZE = Number(gridSizeSelect.value);
+  grid.style.gridTemplateColumns = `repeat(${SIZE}, 1fr)`;
+
+  currentImage = IMAGES[Math.floor(Math.random() * IMAGES.length)];
+  previewImg.src = currentImage;
+
+  tiles = [...Array(SIZE * SIZE - 1).keys()].map(n => n + 1);
   tiles.push(null);
 
   shuffleSolvable(tiles);
@@ -87,7 +101,14 @@ function render() {
     if (value === null) {
       tile.classList.add("empty");
     } else {
-      tile.textContent = value;
+      const row = Math.floor((value - 1) / SIZE);
+      const col = (value - 1) % SIZE;
+
+      tile.style.backgroundImage = `url(${currentImage})`;
+      tile.style.backgroundSize = `${SIZE * 100}% ${SIZE * 100}%`;
+      tile.style.backgroundPosition =
+        `${(col * 100) / (SIZE - 1)}% ${(row * 100) / (SIZE - 1)}%`;
+
       tile.onclick = () => moveTile(index);
     }
 
@@ -95,37 +116,74 @@ function render() {
   });
 }
 
-/* ---------- MOVE ---------- */
+/* ---------- MOVE (TAP) ---------- */
 
 function moveTile(index) {
   const emptyIndex = tiles.indexOf(null);
   const valid = getValidMoves(emptyIndex);
-
   if (!valid.includes(index)) return;
 
   startTimer();
-  moveSound.currentTime = 0;
-  moveSound.play();
+  swap(index, emptyIndex);
+}
 
-  [tiles[index], tiles[emptyIndex]] = [tiles[emptyIndex], tiles[index]];
+/* ---------- MOVE (SWIPE) ---------- */
+
+let startX = 0;
+let startY = 0;
+
+grid.addEventListener("touchstart", e => {
+  const t = e.touches[0];
+  startX = t.clientX;
+  startY = t.clientY;
+});
+
+grid.addEventListener("touchend", e => {
+  const t = e.changedTouches[0];
+  const dx = t.clientX - startX;
+  const dy = t.clientY - startY;
+
+  if (Math.abs(dx) < 30 && Math.abs(dy) < 30) return;
+
+  const empty = tiles.indexOf(null);
+  const row = Math.floor(empty / SIZE);
+  const col = empty % SIZE;
+
+  let target = null;
+
+  if (Math.abs(dx) > Math.abs(dy)) {
+    if (dx > 0 && col > 0) target = empty - 1;        // swipe right
+    if (dx < 0 && col < SIZE - 1) target = empty + 1; // swipe left
+  } else {
+    if (dy > 0 && row > 0) target = empty - SIZE;     // swipe down
+    if (dy < 0 && row < SIZE - 1) target = empty + SIZE; // swipe up
+  }
+
+  if (target !== null) {
+    startTimer();
+    swap(target, empty);
+  }
+});
+
+/* ---------- HELPERS ---------- */
+
+function swap(a, b) {
+  [tiles[a], tiles[b]] = [tiles[b], tiles[a]];
   moves++;
   movesEl.textContent = moves;
-
   render();
   checkWin();
 }
 
-/* ---------- HELPERS ---------- */
-
 function getValidMoves(empty) {
+  const row = Math.floor(empty / SIZE);
+  const col = empty % SIZE;
   const moves = [];
-  const row = Math.floor(empty / 3);
-  const col = empty % 3;
 
-  if (row > 0) moves.push(empty - 3);
-  if (row < 2) moves.push(empty + 3);
+  if (row > 0) moves.push(empty - SIZE);
+  if (row < SIZE - 1) moves.push(empty + SIZE);
   if (col > 0) moves.push(empty - 1);
-  if (col < 2) moves.push(empty + 1);
+  if (col < SIZE - 1) moves.push(empty + 1);
 
   return moves;
 }
@@ -133,39 +191,23 @@ function getValidMoves(empty) {
 /* ---------- WIN ---------- */
 
 function checkWin() {
-  const solved = tiles.slice(0, 8).every((v, i) => v === i + 1);
+  const solved = tiles.slice(0, SIZE * SIZE - 1)
+    .every((v, i) => v === i + 1);
+
   if (!solved) return;
 
   stopTimer();
-  winSound.play();
-
-  saveBestScore();
-
-  const best = getBestScore();
   document.getElementById("resultText").textContent =
     `Solved in ${moves} moves and ${time}s`;
-  document.getElementById("bestText").textContent =
-    `Best: ${best.moves} moves in ${best.time}s`;
 
   winModal.classList.remove("hidden");
-}
-
-/* ---------- BEST SCORE ---------- */
-
-function saveBestScore() {
-  const best = JSON.parse(localStorage.getItem("sliding_best"));
-  if (!best || moves < best.moves || (moves === best.moves && time < best.time)) {
-    localStorage.setItem("sliding_best", JSON.stringify({ moves, time }));
-  }
-}
-
-function getBestScore() {
-  return JSON.parse(localStorage.getItem("sliding_best"));
 }
 
 /* ---------- EVENTS ---------- */
 
 restartBtn.onclick = init;
+playAgainBtn.onclick = init;
+gridSizeSelect.onchange = init;
 
 /* ---------- START ---------- */
 
