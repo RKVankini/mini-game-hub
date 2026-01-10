@@ -8,21 +8,24 @@
 </head>
 <body>
 
-  <header>
-    <h1>🧩 Jigsaw Puzzle</h1>
-    <p>Drag & drop pieces to complete the picture</p>
-  </header>
+<header>
+  <h1>🧩 Jigsaw Puzzle</h1>
+  <p>Select a level and complete the image</p>
+</header>
 
-  <main>
-    <div class="puzzle-board" id="board"></div>
+<div class="levels">
+  <button onclick="setLevel('easy')">😊 Easy</button>
+  <button onclick="setLevel('medium')">😃 Medium</button>
+  <button onclick="setLevel('hard')">🔥 Hard</button>
+</div>
 
-    <button id="shuffleBtn">🔀 Shuffle</button>
+<div id="board" class="puzzle-board"></div>
 
-    <p id="message"></p>
+<button id="shuffleBtn">🔀 Shuffle</button>
+<p id="message"></p>
 
-    <a href="../../index.html" class="back-btn">⬅ Back to Games</a>
-  </main>
+<a href="../../index.html" class="back-btn">⬅ Back to Games</a>
 
-  <script src="game.js"></script>
+<script src="game.js"></script>
 </body>
 </html>
