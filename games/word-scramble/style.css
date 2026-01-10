@@ -1,0 +1,67 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(135deg, #c3ecff, #fef9d7);
+  text-align: center;
+}
+
+header {
+  padding: 20px;
+}
+
+.container {
+  max-width: 420px;
+  margin: auto;
+}
+
+.level-select button {
+  margin: 5px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  background: #6c63ff;
+  color: white;
+}
+
+.game-box {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  margin-top: 20px;
+}
+
+#scrambledWord {
+  font-size: 2rem;
+  letter-spacing: 4px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  margin: 15px 0;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.buttons button {
+  margin: 5px;
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.score {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.back-btn {
+  display: inline-block;
+  margin-top: 20px;
+  text-decoration: none;
+  font-weight: bold;
+}

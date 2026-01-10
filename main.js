@@ -32,6 +32,12 @@ function loadHome() {
           <h3>🧩 Sliding Puzzle</h3>
           <p>Rearrange tiles to solve the puzzle</p>
         </div>
+
+        <div class="game-card" onclick="loadGame('scramble')">
+          <h3>🔀 Word Scramble</h3>
+          <p>Unscramble the word</p>
+        </div>
+
       </div>
     </section>
   `;
@@ -46,7 +52,6 @@ function loadGame(game) {
     </div>
   `;
 
-  // 🧹 Remove previously loaded game script (VERY IMPORTANT)
   const oldScript = document.getElementById("gameScript");
   if (oldScript) oldScript.remove();
 
