@@ -1,46 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Word Scramble</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+<section class="game word-scramble">
+  <h2>🔀 Word Scramble</h2>
 
-  <header>
-    <h1>🔀 Word Scramble</h1>
-    <p>Unscramble the word and learn!</p>
-  </header>
+  <div class="level-select">
+    <button data-level="easy">😊 Easy</button>
+    <button data-level="medium">😃 Medium</button>
+    <button data-level="hard">🤓 Hard</button>
+  </div>
 
-  <main class="container">
-    <div class="level-select">
-      <button data-level="easy">😊 Easy</button>
-      <button data-level="medium">😃 Medium</button>
-      <button data-level="hard">🤓 Hard</button>
+  <div class="game-box">
+    <h1 id="scrambledWord">----</h1>
+
+    <input
+      type="text"
+      id="userInput"
+      placeholder="Type the correct word"
+    />
+
+    <div class="buttons">
+      <button id="checkBtn">Check</button>
+      <button id="nextBtn">Next</button>
     </div>
 
-    <div class="game-box">
-      <h2 id="scrambledWord">----</h2>
-
-      <input
-        type="text"
-        id="userInput"
-        placeholder="Type the correct word"
-      />
-
-      <div class="buttons">
-        <button id="checkBtn">Check</button>
-        <button id="nextBtn">Next</button>
-      </div>
-
-      <p id="message"></p>
-      <p class="score">Score: <span id="score">0</span></p>
-    </div>
-
-    <a href="../../index.html" class="back-btn">⬅ Back to Games</a>
-  </main>
-
-  <script src="game.js"></script>
-</body>
-</html>
+    <p id="message"></p>
+    <p class="score">Score: <span id="score">0</span></p>
+  </div>
+</section>
