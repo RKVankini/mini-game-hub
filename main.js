@@ -14,7 +14,7 @@ function loadHome() {
          ${gameCard("quiz", "❓", "Quiz Game", "Answer & score")} 
         ${gameCard("sliding-puzzle", "🧩", "Sliding Puzzle", "Rearrange tiles")}
         ${gameCard("word-scramble", "🔀", "Word Scramble", "Unscramble the word")}
-         ${false ? gameCard("jigsaw","🧩","Jigsaw Puzzle","Complete the picture")} 
+         ${gameCard("jigsaw","🧩","Jigsaw Puzzle","Complete the picture")} 
       </div>
     </section>
   `;
