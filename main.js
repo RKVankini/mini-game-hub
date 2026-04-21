@@ -8,13 +8,13 @@ function loadHome() {
       <h2>Choose a Game</h2>
 
       <div class="game-grid">
-        ${gameCard("memory", "🧠", "Memory Game", "Test your memory skills")}
+        // ${gameCard("memory", "🧠", "Memory Game", "Test your memory skills")}
         ${gameCard("reaction", "⚡", "Reaction Speed", "How fast are you?")}
-        ${gameCard("color-sort", "🧪", "Color Sort Puzzle", "Logic-based puzzle")}
-        ${gameCard("quiz", "❓", "Quiz Game", "Answer & score")}
+        // ${gameCard("color-sort", "🧪", "Color Sort Puzzle", "Logic-based puzzle")}
+        // ${gameCard("quiz", "❓", "Quiz Game", "Answer & score")}
         ${gameCard("sliding-puzzle", "🧩", "Sliding Puzzle", "Rearrange tiles")}
         ${gameCard("word-scramble", "🔀", "Word Scramble", "Unscramble the word")}
-        ${gameCard("jigsaw","🧩","Jigsaw Puzzle","Complete the picture")}
+        // ${gameCard("jigsaw","🧩","Jigsaw Puzzle","Complete the picture")}
       </div>
     </section>
   `;
