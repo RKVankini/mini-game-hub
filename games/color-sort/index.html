@@ -1,31 +1,43 @@
-<link rel="stylesheet" href="games/color-sort/style.css" />
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Color Sort Puzzle</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <main class="container" role="main">
+    <button class="back-btn" onclick="history.back()" aria-label="Back to hub">← Back</button>
+    <h1>🧪 Color Sort Puzzle</h1>
 
-<section class="water-sort">
-  <button class="back-btn" onclick="history.back()">← Back</button>
+    <div class="controls-top">
+      <label for="difficulty" class="visually-hidden">Difficulty</label>
+      <select id="difficulty" aria-label="Select difficulty">
+        <option value="easy">Easy (4)</option>
+        <option value="medium">Medium (6)</option>
+        <option value="hard">Hard (8)</option>
+      </select>
 
-  <h2>🧪 Color Sort Puzzle</h2>
+      <div class="status">
+        <span id="levelText">Level 1</span>
+        <span> • Moves: <strong id="moves">0</strong></span>
+        <span> • Best: <strong id="best">--</strong></span>
+      </div>
+    </div>
 
-  <select id="difficulty">
-    <option value="easy">Easy (4)</option>
-    <option value="medium">Medium (6)</option>
-    <option value="hard">Hard (8)</option>
-  </select>
+    <div id="tubes" class="tubes" role="list" aria-label="Tubes"></div>
 
-  <p id="levelText">Level 1</p>
+    <div class="controls">
+      <button id="hint" class="btn">💡 Hint</button>
+      <button id="undo" class="btn">↩ Undo</button>
+      <button id="nextLevel" class="btn hidden">➡ Next Level</button>
+      <button id="reset" class="btn">🔄 Reset</button>
+    </div>
 
-  <p>
-    Moves: <span id="moves">0</span> |
-    Best: <span id="best">--</span>
-  </p>
+    <p class="help">Tap a tube to select, then tap another to pour. On desktop you can click.</p>
+  </main>
 
-  <div id="tubes"></div>
-
-  <div class="controls">
-    <button id="hint">💡 Hint</button>
-    <button id="undo">↩ Undo</button>
-    <button id="nextLevel" class="hidden">➡ Next Level</button>
-    <button id="reset">🔄 Reset</button>
-  </div>
-</section>
-
-<script src="games/color-sort/game.js"></script>
+  <script src="./game.js" defer></script>
+</body>
+</html>
