@@ -75,6 +75,7 @@ body {
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   border: 1px solid rgba(255,255,255,0.04);
   box-shadow: 0 12px 30px rgba(2,6,23,0.6);
+  position: relative;
 }
 
 /* Cell base */
@@ -160,68 +161,32 @@ body {
 /* Footer */
 .footer { margin-top: 18px; color: var(--muted); text-align: center; font-size: 0.9rem; }
 
-/* Thicker 3x3 block borders */
-/* We compute cell index (1-based) and apply thicker borders on the right and bottom edges of blocks */
-.board .cell {
-  border-right-width: 1px;
-  border-bottom-width: 1px;
-}
-
-/* Add thicker right border for columns 3 and 6 */
-.board .cell:nth-child(9n + 3),
-.board .cell:nth-child(9n + 6) {
-  border-right-width: 2px;
-  border-right-color: rgba(255,255,255,0.08);
-}
-
-/* Add thicker bottom border for rows 3 and 6 */
-/* Cells in rows 3 and 6 are those with index <= 27 and > 18 etc. Use nth-child with formula: nth-child(n) where n in 1..81 */
-.board .cell:nth-child(n + 1) { /* placeholder to ensure subsequent nth-child rules parse correctly */ }
-
-/* bottom border thicker for rows 3 and 6: select cells where row index is 3 or 6 */
-.board .cell:nth-child(n) {}
-
-/* Practical approach: use row-based selectors by selecting ranges */
-.board .cell:nth-child(n + 1) {}
-
-/* Instead of complex nth-child math, apply thicker bottom border by selecting cells in rows 3 and 6 using :nth-child with step 9 */
-.board .cell:nth-child(n) {}
-
-/* Apply thicker bottom border to all cells in row 3 and 6 */
-.board .cell:nth-child(-n + 27):nth-child(n + 19) {}
-
-/* The above complex selectors can be brittle across browsers. Use a simpler approach: add a thin overlay grid using box-shadow on the board */
-.board {
-  box-shadow:
-    0 12px 30px rgba(2,6,23,0.6),
-    inset 0 -2px 0 rgba(255,255,255,0.02),
-    inset -2px 0 0 rgba(255,255,255,0.02);
-  position: relative;
-}
-
-/* Draw thicker 3x3 separators using pseudo elements */
+/* Draw thicker 3x3 separators using pseudo-elements on the board */
 .board::before,
 .board::after {
   content: "";
   position: absolute;
   left: 0;
-  right: 0;
-  height: 100%;
   top: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
+}
+
+/* vertical separators at 33.333% and 66.666% */
+.board::before {
   background-image:
     linear-gradient(to right, transparent calc(33.333% - 1px), rgba(255,255,255,0.06) calc(33.333% - 1px), rgba(255,255,255,0.06) calc(33.333% + 1px), transparent calc(33.333% + 1px)),
     linear-gradient(to right, transparent calc(66.666% - 1px), rgba(255,255,255,0.06) calc(66.666% - 1px), rgba(255,255,255,0.06) calc(66.666% + 1px), transparent calc(66.666% + 1px));
   background-repeat: no-repeat;
 }
+
+/* horizontal separators at 33.333% and 66.666% */
 .board::after {
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   background-image:
     linear-gradient(to bottom, transparent calc(33.333% - 1px), rgba(255,255,255,0.06) calc(33.333% - 1px), rgba(255,255,255,0.06) calc(33.333% + 1px), transparent calc(33.333% + 1px)),
     linear-gradient(to bottom, transparent calc(66.666% - 1px), rgba(255,255,255,0.06) calc(66.666% - 1px), rgba(255,255,255,0.06) calc(66.666% + 1px), transparent calc(66.666% + 1px));
+  background-repeat: no-repeat;
 }
 
 /* Reduced motion */
