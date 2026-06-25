@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sudoku</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <main class="container" role="main">
+    <header class="header">
+      <button class="back" onclick="history.back()" aria-label="Back to hub">← Back</button>
+      <h1>Sudoku</h1>
+      <div class="meta">
+        <label for="difficulty" class="visually-hidden">Difficulty</label>
+        <select id="difficulty" aria-label="Select difficulty">
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+        <button id="newGame" class="btn">New Game</button>
+      </div>
+    </header>
+
+    <section class="game-area" aria-label="Sudoku board and controls">
+      <div id="board" class="board" role="grid" aria-label="Sudoku board"></div>
+
+      <aside class="controls" aria-label="Controls">
+        <div class="status">
+          <div>Time: <span id="timer">00:00</span></div>
+          <div>Moves: <span id="moves">0</span></div>
+        </div>
+
+        <div class="pad" role="group" aria-label="Number pad">
+          <button class="num" data-num="1">1</button>
+          <button class="num" data-num="2">2</button>
+          <button class="num" data-num="3">3</button>
+          <button class="num" data-num="4">4</button>
+          <button class="num" data-num="5">5</button>
+          <button class="num" data-num="6">6</button>
+          <button class="num" data-num="7">7</button>
+          <button class="num" data-num="8">8</button>
+          <button class="num" data-num="9">9</button>
+        </div>
+
+        <div class="actions">
+          <button id="pencil" class="btn">Pencil</button>
+          <button id="hint" class="btn">Hint</button>
+          <button id="undo" class="btn">Undo</button>
+          <button id="validate" class="btn">Validate</button>
+          <button id="solve" class="btn">Solve</button>
+        </div>
+
+        <div id="message" class="message" aria-live="polite"></div>
+      </aside>
+    </section>
+
+    <footer class="footer">
+      <small>Built for fun — Sudoku game</small>
+    </footer>
+  </main>
+
+  <script src="./game.js" defer></script>
+</body>
+</html>
