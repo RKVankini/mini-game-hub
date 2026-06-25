@@ -11,7 +11,7 @@
     <button class="back-btn" onclick="history.back()" aria-label="Back to hub">← Back</button>
     <h1>🧪 Color Sort Puzzle</h1>
 
-    <div class="controls-top">
+    <div class="controls-top" role="region" aria-label="Game controls">
       <label for="difficulty" class="visually-hidden">Difficulty</label>
       <select id="difficulty" aria-label="Select difficulty">
         <option value="easy">Easy (4)</option>
@@ -19,7 +19,7 @@
         <option value="hard">Hard (8)</option>
       </select>
 
-      <div class="status">
+      <div class="status" aria-live="polite">
         <span id="levelText">Level 1</span>
         <span> • Moves: <strong id="moves">0</strong></span>
         <span> • Best: <strong id="best">--</strong></span>
@@ -28,15 +28,18 @@
 
     <div id="tubes" class="tubes" role="list" aria-label="Tubes"></div>
 
-    <div class="controls">
-      <button id="hint" class="btn">💡 Hint</button>
-      <button id="undo" class="btn">↩ Undo</button>
-      <button id="nextLevel" class="btn hidden">➡ Next Level</button>
-      <button id="reset" class="btn">🔄 Reset</button>
+    <div class="controls" role="toolbar" aria-label="Game actions">
+      <button id="hint" class="btn" aria-label="Show hint">💡 Hint</button>
+      <button id="undo" class="btn" aria-label="Undo last move">↩ Undo</button>
+      <button id="nextLevel" class="btn hidden" aria-label="Next level">➡ Next Level</button>
+      <button id="reset" class="btn" aria-label="Reset level">🔄 Reset</button>
     </div>
 
-    <p class="help">Tap a tube to select, then tap another to pour. On desktop you can click.</p>
+    <p class="help">Tap a tube to select, then tap another to pour. Use keyboard: Tab + Enter.</p>
   </main>
+
+  <!-- Confetti canvas (absolute overlay) -->
+  <canvas id="confettiCanvas" aria-hidden="true"></canvas>
 
   <script src="./game.js" defer></script>
 </body>
