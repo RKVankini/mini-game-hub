@@ -7,25 +7,23 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <header>
+    <h1>🧩 Jigsaw Puzzle</h1>
+    <p>Select a level and complete the image</p>
+  </header>
 
-<header>
-  <h1>🧩 Jigsaw Puzzle</h1>
-  <p>Select a level and complete the image</p>
-</header>
+  <div class="levels">
+    <button onclick="setLevel('easy')">😊 Easy</button>
+    <button onclick="setLevel('medium')">😃 Medium</button>
+    <button onclick="setLevel('hard')">🔥 Hard</button>
+  </div>
 
-<div class="levels">
-  <button onclick="setLevel('easy')">😊 Easy</button>
-  <button onclick="setLevel('medium')">😃 Medium</button>
-  <button onclick="setLevel('hard')">🔥 Hard</button>
-</div>
+  <div id="board" class="puzzle-board"></div>
+  <button id="shuffleBtn">🔀 Shuffle</button>
+  <p id="message"></p>
 
-<div id="board" class="puzzle-board"></div>
+  <a href="../../index.html" class="back-btn">⬅ Back to Games</a>
 
-<button id="shuffleBtn">🔀 Shuffle</button>
-<p id="message"></p>
-
-<a href="../../index.html" class="back-btn">⬅ Back to Games</a>
-
-<script src="game.js"></script>
+  <script src="game.js"></script>
 </body>
 </html>

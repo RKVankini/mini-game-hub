@@ -5,9 +5,7 @@ body {
   margin: 0;
 }
 
-header {
-  padding: 20px;
-}
+header { padding: 20px; }
 
 .levels button {
   margin: 6px;
@@ -23,6 +21,8 @@ header {
   margin: 20px auto;
   display: grid;
   border: 4px solid #333;
+  max-width: 90vw;
+  max-height: 90vw;
 }
 
 .piece {

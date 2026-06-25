@@ -6,18 +6,9 @@ let pieces = [];
 let draggedPiece = null;
 
 const levels = {
-  easy: {
-    size: 3,
-    image: "../../assets/images/puzzle1.jpg"
-  },
-  medium: {
-    size: 4,
-    image: "../../assets/images/puzzle2.png"
-  },
-  hard: {
-    size: 5,
-    image: "../../assets/images/onepiece-hard.webp"
-  }
+  easy: { size: 3, image: "../../assets/images/puzzle1.jpg" },
+  medium: { size: 4, image: "../../assets/images/puzzle2.png" },
+  hard: { size: 5, image: "../../assets/images/onepiece-hard.webp" }
 };
 
 let currentLevel = levels.easy;
@@ -29,7 +20,7 @@ function setLevel(level) {
 
 function createPuzzle() {
   const size = currentLevel.size;
-  const boardSize = 300;
+  const boardSize = Math.min(window.innerWidth * 0.8, 400);
   const pieceSize = boardSize / size;
 
   board.style.width = boardSize + "px";
@@ -54,8 +45,8 @@ function createPuzzle() {
     piece.style.backgroundImage = `url(${currentLevel.image})`;
     piece.style.backgroundSize = `${boardSize}px ${boardSize}px`;
     piece.style.backgroundPosition = `-${col * pieceSize}px -${row * pieceSize}px`;
-
     piece.dataset.correct = i;
+
     pieces.push(piece);
   }
 
@@ -63,7 +54,11 @@ function createPuzzle() {
 }
 
 function shufflePieces() {
-  pieces.sort(() => Math.random() - 0.5);
+  // Fisher–Yates shuffle
+  for (let i = pieces.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pieces[i], pieces[j]] = [pieces[j], pieces[i]];
+  }
   render();
 }
 
@@ -81,20 +76,30 @@ board.addEventListener("dragover", e => e.preventDefault());
 
 board.addEventListener("drop", e => {
   if (!e.target.classList.contains("piece")) return;
-
   const from = pieces.indexOf(draggedPiece);
   const to = pieces.indexOf(e.target);
-
   [pieces[from], pieces[to]] = [pieces[to], pieces[from]];
   render();
   checkWin();
 });
 
-function checkWin() {
-  const solved = pieces.every(
-    (piece, index) => piece.dataset.correct == index
-  );
+// Mobile touch support
+board.addEventListener("touchstart", e => {
+  if (e.target.classList.contains("piece")) draggedPiece = e.target;
+});
+board.addEventListener("touchend", e => {
+  if (e.target.classList.contains("piece") && draggedPiece) {
+    const from = pieces.indexOf(draggedPiece);
+    const to = pieces.indexOf(e.target);
+    [pieces[from], pieces[to]] = [pieces[to], pieces[from]];
+    render();
+    checkWin();
+    draggedPiece = null;
+  }
+});
 
+function checkWin() {
+  const solved = pieces.every((piece, index) => piece.dataset.correct == index);
   if (solved) {
     message.textContent = "🎉 Puzzle Completed! Amazing!";
     message.style.color = "green";
