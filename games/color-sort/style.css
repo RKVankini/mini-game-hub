@@ -3,11 +3,19 @@
 }
 
 /* GRID */
-#tubes {
+/* #tubes {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 18px;
   max-width: 440px;
+  margin: 25px auto;
+} */
+
+#tubes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  gap: 18px;
+  max-width: 95%;
   margin: 25px auto;
 }
 
