@@ -1,24 +1,49 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Mini Game Hub</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="description" content="Mini Game Hub — lightweight, accessible browser games for desktop and mobile." />
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-
-  <header class="header">
-    <h1>🎮 Mini Game Hub</h1>
-    <button id="themeToggle">🌙</button>
+  <header class="site-header" role="banner">
+    <div class="container">
+      <h1 class="brand">Mini Game Hub</h1>
+      <p class="tagline">Built for fun, crafted with care — by RK</p>
+      <div class="controls">
+        <label for="search" class="visually-hidden">Search games</label>
+        <input id="search" type="search" placeholder="Search games..." aria-label="Search games" />
+        <select id="filter" aria-label="Filter by category">
+          <option value="all">All</option>
+          <option value="puzzle">Puzzle</option>
+          <option value="brain">Brain</option>
+          <option value="speed">Speed</option>
+        </select>
+      </div>
+    </div>
   </header>
 
-  <main id="app"></main>
+  <main class="container" id="main" role="main">
+    <h2 class="sr-only">Available games</h2>
 
-  <footer class="footer">
-    <p>Built for fun, crafted with care — by RK</p>
+    <section id="gamesGrid" class="games-grid" aria-live="polite">
+      <!-- Cards are injected by main.js -->
+    </section>
+
+    <div class="footer-actions">
+      <button id="openAll" class="btn">Open All Games (new tabs)</button>
+      <button id="clearStorage" class="btn btn-ghost">Clear Saved Data</button>
+    </div>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <small>© <span id="year"></span> RK — Play responsibly. Works offline with a simple server.</small>
+    </div>
   </footer>
 
-  <script src="main.js"></script>
+  <script src="./main.js" defer></script>
 </body>
 </html>
