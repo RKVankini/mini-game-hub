@@ -1,54 +1,49 @@
-<link rel="stylesheet" href="games/quiz/style.css" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz Game</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <section class="quiz-game">
+    <button class="back-btn" onclick="history.back()">← Back</button>
+    <h2>❓ Quiz Game</h2>
 
-<section class="quiz-game">
-
-  <button class="back-btn" onclick="history.back()">← Back</button>
-
-  <h2>❓ Quiz Game</h2>
-
-  <!-- CATEGORY -->
-  <div id="categoryBox">
-    <button class="category" data-type="devops">☁️ DevOps</button>
-    <button class="category" data-type="technical">💻 Technical</button>
-    <button class="category" data-type="fun">🎉 Fun</button>
-  </div>
-
-  <!-- DIFFICULTY -->
-  <div id="difficultyBox" class="hidden">
-    <button class="difficulty">Easy</button>
-    <button class="difficulty">Medium</button>
-    <button class="difficulty">Hard</button>
-  </div>
-
-  <!-- QUIZ -->
-  <div id="quizBox" class="hidden">
-
-    <div class="progress">
-      <div id="progressBar"></div>
+    <!-- CATEGORY -->
+    <div id="categoryBox">
+      <button class="category" data-type="devops">☁️ DevOps</button>
+      <button class="category" data-type="technical">💻 Technical</button>
+      <button class="category" data-type="fun">🎉 Fun</button>
     </div>
 
-    <p id="question"></p>
+    <!-- DIFFICULTY -->
+    <div id="difficultyBox" class="hidden">
+      <button class="difficulty">Easy</button>
+      <button class="difficulty">Medium</button>
+      <button class="difficulty">Hard</button>
+    </div>
 
-    <div id="options"></div>
+    <!-- QUIZ -->
+    <div id="quizBox" class="hidden">
+      <div class="progress"><div id="progressBar"></div></div>
+      <p id="question"></p>
+      <div id="options"></div>
+      <p class="info">⏱️ <span id="time">0</span>s | ⭐ Score: <span id="score">0</span></p>
+      <p id="explanation" class="explanation hidden"></p>
+      <button id="nextBtn" disabled>Next</button>
+    </div>
 
-    <p class="info">
-      ⏱️ <span id="time">0</span>s |
-      ⭐ Score: <span id="score">0</span>
-    </p>
+    <!-- RESULT -->
+    <div id="resultBox" class="hidden">
+      <h3>🎉 Quiz Completed</h3>
+      <p>Your Score: <span id="finalScore"></span></p>
+      <p id="bestScore"></p>
+      <button id="restartQuiz">Play Again</button>
+    </div>
+  </section>
 
-    <p id="explanation" class="explanation hidden"></p>
-
-    <button id="nextBtn" disabled>Next</button>
-  </div>
-
-  <!-- RESULT -->
-  <div id="resultBox" class="hidden">
-    <h3>🎉 Quiz Completed</h3>
-    <p>Your Score: <span id="finalScore"></span></p>
-    <p id="bestScore"></p>
-    <button id="restartQuiz">Play Again</button>
-  </div>
-
-</section>
-
-<script src="games/quiz/game.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
