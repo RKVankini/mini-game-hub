@@ -1,11 +1,13 @@
-/* Quiz Game - production ready with expanded QUESTIONS and new categories
+/* Quiz Game - full production-ready game.js
    - Categories: fun, technical, devops, dadjokes, mulesoft
-   - Timer uses performance.now()
-   - Audio unlock works on mobile (click or touch)
-   - LocalStorage keys: best_<category>_<difficulty>
+   - Robust category handling, safe slicing, expanded question banks
+   - Accurate timer using performance.now()
+   - Audio unlock for mobile (click/touch)
+   - Keyboard and touch accessibility
+   - LocalStorage best score keys: best_<category>_<difficulty>
 */
 
-// ----------------- sounds -----------------
+/* ================= SOUNDS ================= */
 const sounds = {
   click: new Audio("./assets/sounds/click.mp3"),
   correct: new Audio("./assets/sounds/correct.mp3"),
@@ -13,30 +15,29 @@ const sounds = {
   timeout: new Audio("./assets/sounds/timeout.mp3"),
   win: new Audio("./assets/sounds/win.mp3")
 };
-Object.values(sounds).forEach(s => s.volume = 0.6);
+Object.values(sounds).forEach(s => { s.volume = 0.6; s.preload = "auto"; });
 
-// unlock audio on first user gesture (click or touch)
 let audioUnlocked = false;
-["click","touchstart"].forEach(evt => {
-  document.addEventListener(evt, () => { audioUnlocked = true; }, { once:true });
-});
-function playSound(name){
-  if(!audioUnlocked) return;
+["click", "touchstart"].forEach(evt =>
+  document.addEventListener(evt, () => { audioUnlocked = true; }, { once: true })
+);
+function playSound(name) {
+  if (!audioUnlocked) return;
   const s = sounds[name];
-  if(!s) return;
-  s.currentTime = 0;
-  s.play().catch(()=>{});
+  if (!s) return;
+  try { s.currentTime = 0; s.play().catch(()=>{}); } catch(e) {}
 }
 
-// ----------------- config -----------------
+/* ================= CONFIG ================= */
 const DIFFICULTY = {
   easy: { count: 10, time: 15 },
   medium: { count: 15, time: 10 },
   hard: { count: 20, time: 5 }
 };
 
-// ----------------- QUESTIONS -----------------
-// Each question object: { q: "question", options: [...], answer: <zero-based index>, explanation: "..." }
+/* ================= QUESTIONS =================
+   Each entry: { q: "question", options: [...], answer: <index>, explanation: "..." }
+*/
 const QUESTIONS = {
   fun: [
     { q: "Which planet is known as the Red Planet?", options: ["Earth","Mars","Jupiter","Venus"], answer: 1, explanation: "Mars looks red due to iron oxide on its surface." },
@@ -53,11 +54,16 @@ const QUESTIONS = {
     { q: "Which instrument has keys, pedals and strings?", options: ["Guitar","Violin","Piano","Flute"], answer: 2, explanation: "A piano has keys, strings and pedals." },
     { q: "What is H2O commonly known as?", options: ["Salt","Water","Hydrogen","Oxygen"], answer: 1, explanation: "H2O is the chemical formula for water." },
     { q: "Which animal is known for its black and white stripes?", options: ["Tiger","Zebra","Leopard","Hyena"], answer: 1, explanation: "Zebra has distinctive black and white stripes." },
-    { q: "Which fruit keeps the doctor away if eaten daily?", options: ["Apple","Banana","Grapes","Orange"], answer: 0, explanation: "An apple a day keeps the doctor away (saying)." }
+    { q: "Which fruit keeps the doctor away if eaten daily?", options: ["Apple","Banana","Grapes","Orange"], answer: 0, explanation: "An apple a day keeps the doctor away (saying)." },
+    { q: "Which metal is liquid at room temperature?", options: ["Mercury","Iron","Gold","Aluminum"], answer: 0, explanation: "Mercury is liquid at room temperature." },
+    { q: "Which animal is known as man's best friend?", options: ["Cat","Dog","Parrot","Rabbit"], answer: 1, explanation: "Dog is commonly called man's best friend." },
+    { q: "Which is the smallest prime number?", options: ["0","1","2","3"], answer: 2, explanation: "2 is the smallest and only even prime number." },
+    { q: "Which day comes after Friday?", options: ["Saturday","Sunday","Thursday","Monday"], answer: 0, explanation: "Saturday follows Friday." },
+    { q: "Which color do you get by mixing red and blue?", options: ["Green","Purple","Orange","Brown"], answer: 1, explanation: "Red and blue mix to make purple." }
   ],
 
   technical: [
-    { q: "Which language runs in the browser?", options: ["Python","C","JavaScript","Java"], answer: 2, explanation: "JavaScript is the language that runs natively in browsers." },
+    { q: "Which language runs in the browser?", options: ["Python","C","JavaScript","Java"], answer: 2, explanation: "JavaScript runs natively in browsers." },
     { q: "What does CSS stand for?", options: ["Computer Style Sheets","Cascading Style Sheets","Creative Style System","Colorful Style Sheets"], answer: 1, explanation: "CSS stands for Cascading Style Sheets." },
     { q: "Which keyword declares a block-scoped variable in JS?", options: ["var","let","const","define"], answer: 1, explanation: "`let` declares a block-scoped variable." },
     { q: "How do you parse JSON in JavaScript?", options: ["JSON.parse()","parseJSON()","toJSON()","JSON.toObject()"], answer: 0, explanation: "Use JSON.parse() to convert JSON string to object." },
@@ -68,10 +74,15 @@ const QUESTIONS = {
     { q: "Which HTML tag creates a hyperlink?", options: ["<link>","<a>","<href>","<url>"], answer: 1, explanation: "<a> tag creates hyperlinks." },
     { q: "How do you write a single-line comment in JS?", options: ["## comment","// comment","<!-- comment -->","/* comment */"], answer: 1, explanation: "// is used for single-line comments in JS." },
     { q: "Which method converts a JS object to JSON string?", options: ["JSON.stringify()","toJSON()","JSON.parse()","stringify()"], answer: 0, explanation: "JSON.stringify() converts an object to JSON string." },
-    { q: "Which CSS property controls layout direction?", options: ["display","flex-direction","position","float"], answer: 1, explanation: "flex-direction controls the direction of flex items." },
+    { q: "Which CSS property controls layout direction in flexbox?", options: ["display","flex-direction","position","float"], answer: 1, explanation: "flex-direction controls the direction of flex items." },
     { q: "Which HTTP status code means Not Found?", options: ["200","301","404","500"], answer: 2, explanation: "404 indicates resource not found." },
     { q: "Which tool is used for version control?", options: ["Docker","Git","Jenkins","Kubernetes"], answer: 1, explanation: "Git is a version control system." },
-    { q: "Which protocol is used to load web pages securely?", options: ["HTTP","FTP","SMTP","HTTPS"], answer: 3, explanation: "HTTPS is HTTP over TLS/SSL for secure communication." }
+    { q: "Which protocol is used to load web pages securely?", options: ["HTTP","FTP","SMTP","HTTPS"], answer: 3, explanation: "HTTPS is HTTP over TLS/SSL for secure communication." },
+    { q: "Which HTML attribute sets alternative text for images?", options: ["title","alt","src","role"], answer: 1, explanation: "The alt attribute provides alternative text for images." },
+    { q: "Which JS method schedules a function after a delay?", options: ["setInterval","setTimeout","requestAnimationFrame","delay"], answer: 1, explanation: "setTimeout schedules a one-time delayed call." },
+    { q: "Which storage is synchronous in browsers?", options: ["localStorage","sessionStorage","IndexedDB","Cookies"], answer: 0, explanation: "localStorage is synchronous." },
+    { q: "Which tag loads an external JS file?", options: ["<script>","<link>","<import>","<js>"], answer: 0, explanation: "<script src='...'></script> loads JS." },
+    { q: "Which CSS unit is relative to viewport width?", options: ["em","rem","vw","px"], answer: 2, explanation: "vw is viewport width unit." }
   ],
 
   devops: [
@@ -86,7 +97,10 @@ const QUESTIONS = {
     { q: "Which service is used to store secrets in AWS?", options: ["S3","IAM","Secrets Manager","CloudTrail"], answer: 2, explanation: "AWS Secrets Manager stores secrets securely." },
     { q: "Which tool is commonly used for CI automation?", options: ["Git","Jenkins","Linux","Docker"], answer: 1, explanation: "Jenkins is a popular CI automation server." },
     { q: "What does 'immutable infrastructure' mean?", options: ["Servers are patched in place","Servers are replaced rather than modified","Servers are never updated","Servers are only virtual"], answer: 1, explanation: "Immutable infra means replace rather than modify servers." },
-    { q: "What is blue-green deployment?", options: ["Two identical environments for safe switching","A database migration strategy","A monitoring technique","A security model"], answer: 0, explanation: "Blue-green uses two environments to switch traffic safely." }
+    { q: "What is blue-green deployment?", options: ["Two identical environments for safe switching","A database migration strategy","A monitoring technique","A security model"], answer: 0, explanation: "Blue-green uses two environments to switch traffic safely." },
+    { q: "Which tool is used for container orchestration?", options: ["Docker","Kubernetes","Ansible","Terraform"], answer: 1, explanation: "Kubernetes orchestrates containers at scale." },
+    { q: "What does 'IaC' stand for?", options: ["Infrastructure as Code","Integration as Code","Instance as Code","Image as Code"], answer: 0, explanation: "IaC stands for Infrastructure as Code." },
+    { q: "Which protocol is used for secure shell access?", options: ["FTP","SSH","HTTP","SMTP"], answer: 1, explanation: "SSH is used for secure shell access." }
   ],
 
   dadjokes: [
@@ -99,7 +113,12 @@ const QUESTIONS = {
     { q: "What do you call cheese that isn't yours?", options: ["Nacho cheese","Blue cheese","Swiss","Cheddar"], answer: 0, explanation: "Nacho cheese — staple dad joke." },
     { q: "I asked the librarian if the library had books on paranoia. She whispered", options: ["They're right behind you","No books","Yes, upstairs","Try online"], answer: 0, explanation: "They're right behind you — playful and safe." },
     { q: "Why did the tomato blush?", options: ["Because it saw the salad dressing","Because it was ripe","Because it was hot","Because it was late"], answer: 0, explanation: "Saw the salad dressing — harmless cheeky humor." },
-    { q: "What do you call a belt made of watches?", options: ["A waist of time","A fashion statement","A clockbelt","A timer"], answer: 0, explanation: "A waist of time — punny and light." }
+    { q: "What do you call a belt made of watches?", options: ["A waist of time","A fashion statement","A clockbelt","A timer"], answer: 0, explanation: "A waist of time — punny and light." },
+    { q: "Why did the bicycle fall over?", options: ["It was two-tired","It was old","It was broken","It was stolen"], answer: 0, explanation: "It was two-tired — dad pun." },
+    { q: "Why don't eggs tell jokes?", options: ["They'd crack up","They are shy","They are raw","They are busy"], answer: 0, explanation: "They'd crack up — egg pun." },
+    { q: "What do you call a factory that makes okay products?", options: ["A satisfactory","A great factory","An average plant","A mediocre mill"], answer: 0, explanation: "A satisfactory — wordplay." },
+    { q: "Why did the math book look sad?", options: ["It had too many problems","It was old","It was lost","It was torn"], answer: 0, explanation: "It had too many problems — classic." },
+    { q: "Why did the golfer bring two pairs of pants?", options: ["In case he got a hole in one","For style","For comfort","For weather"], answer: 0, explanation: "In case he got a hole in one — pun." }
   ],
 
   mulesoft: [
@@ -112,11 +131,16 @@ const QUESTIONS = {
     { q: "What is Anypoint Studio?", options: ["A cloud service","A desktop IDE for building Mule apps","A database","A testing framework"], answer: 1, explanation: "Anypoint Studio is the desktop IDE for building Mule applications." },
     { q: "Which format is commonly used to describe APIs in MuleSoft Design Center?", options: ["RAML","XML only","CSV","YAML only"], answer: 0, explanation: "RAML (and OpenAPI) are commonly used to describe APIs." },
     { q: "What is Anypoint Exchange used for?", options: ["Running apps","Storing and sharing APIs and connectors","Monitoring servers","Managing users"], answer: 1, explanation: "Exchange is a marketplace for APIs, templates and connectors." },
-    { q: "Which connector would you use to connect to Salesforce from Mule?", options: ["Database connector","Salesforce connector","FTP connector","SMTP connector"], answer: 1, explanation: "Use the Salesforce connector to integrate with Salesforce." }
+    { q: "Which connector would you use to connect to Salesforce from Mule?", options: ["Database connector","Salesforce connector","FTP connector","SMTP connector"], answer: 1, explanation: "Use the Salesforce connector to integrate with Salesforce." },
+    { q: "Which language is commonly used to extend Mule applications?", options: ["Java","Ruby","Go","Rust"], answer: 0, explanation: "Java is commonly used to extend Mule apps." },
+    { q: "What is a Mule flow?", options: ["A database schema","A sequence of message processors","A UI component","A deployment artifact"], answer: 1, explanation: "A Mule flow is a sequence of processors that handle messages." },
+    { q: "What is the purpose of a connector in MuleSoft?", options: ["To style UI","To connect to external systems","To store logs","To manage users"], answer: 1, explanation: "Connectors integrate external systems with Mule apps." },
+    { q: "Which component manages deployed Mule apps in cloud?", options: ["Anypoint Runtime Manager","Anypoint Studio","Anypoint Exchange","Anypoint Design Center"], answer: 0, explanation: "Runtime Manager manages deployed apps." },
+    { q: "Which spec formats are supported for API design in MuleSoft?", options: ["RAML and OpenAPI","Only RAML","Only WSDL","Only SOAP"], answer: 0, explanation: "MuleSoft supports RAML and OpenAPI (Swagger)." }
   ]
 };
 
-// ----------------- engine and UI -----------------
+/* ================= UI ELEMENTS ================= */
 const els = {
   categoryBox: document.getElementById("categoryBox"),
   difficultyBox: document.getElementById("difficultyBox"),
@@ -134,135 +158,257 @@ const els = {
   restart: document.getElementById("restartQuiz")
 };
 
-let category = "", difficulty = "", questions = [], index = 0, score = 0;
-let timer = null, timeLeft = 0, answered = false, lastTick = 0;
+/* Defensive checks for missing elements */
+Object.keys(els).forEach(k => {
+  if (!els[k]) {
+    console.warn(`Quiz UI element missing: ${k}`);
+  }
+});
 
-// shuffle helper (Fisher-Yates)
-function shuffle(arr){
-  for(let i = arr.length - 1; i > 0; i--){
+/* ================= STATE ================= */
+let category = "";
+let difficulty = "easy";
+let questions = [];
+let index = 0;
+let score = 0;
+let timer = null;
+let timeLeft = 0;
+let answered = false;
+let lastTick = 0;
+
+/* ================= HELPERS ================= */
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
   return arr;
 }
 
-// category selection - ensure your index.html has buttons with data-type matching these keys
+/* Normalize category string (trim, lowercase, remove extra spaces) */
+function normalizeCategory(s) {
+  return (s || "").toString().trim().toLowerCase().replace(/\s+/g, "");
+}
+
+/* ================= CATEGORY & DIFFICULTY HANDLERS ================= */
 document.querySelectorAll(".category").forEach(btn => {
   btn.addEventListener("click", () => {
     playSound("click");
-    category = btn.dataset.type;
-    els.categoryBox.classList.add("hidden");
-    els.difficultyBox.classList.remove("hidden");
-    els.difficultyBox.setAttribute("aria-hidden","false");
+    const dt = btn.dataset.type || "";
+    category = normalizeCategory(dt);
+    if (!category) {
+      console.error("Category button missing data-type:", btn);
+      alert("This category is not available.");
+      return;
+    }
+    if (els.categoryBox) els.categoryBox.classList.add("hidden");
+    if (els.difficultyBox) {
+      els.difficultyBox.classList.remove("hidden");
+      els.difficultyBox.setAttribute("aria-hidden", "false");
+    }
   });
 });
 
-// difficulty selection
 document.querySelectorAll(".difficulty").forEach(btn => {
   btn.addEventListener("click", () => {
     playSound("click");
-    difficulty = btn.textContent.toLowerCase();
+    difficulty = (btn.textContent || "easy").toString().trim().toLowerCase();
     startQuiz();
   });
 });
 
-function startQuiz(){
-  if(!QUESTIONS[category] || QUESTIONS[category].length === 0){
-    alert("No questions available for this category.");
+/* ================= START QUIZ (robust) ================= */
+function startQuiz() {
+  // Validate category exists
+  if (!category || !QUESTIONS.hasOwnProperty(category)) {
+    console.error("startQuiz: invalid category:", category);
+    alert("Selected category is not available. Please choose another category.");
+    if (els.difficultyBox) els.difficultyBox.classList.add("hidden");
+    if (els.categoryBox) els.categoryBox.classList.remove("hidden");
     return;
   }
-  const cfg = DIFFICULTY[difficulty];
-  // shuffle a copy and slice safely
-  questions = shuffle([...QUESTIONS[category]]).slice(0, Math.min(cfg.count, QUESTIONS[category].length));
-  index = 0; score = 0;
-  els.score.textContent = score;
-  els.difficultyBox.classList.add("hidden");
-  els.quizBox.classList.remove("hidden");
+
+  const cfg = DIFFICULTY[difficulty] || DIFFICULTY.easy;
+  const available = QUESTIONS[category].length;
+  const useCount = Math.min(cfg.count, available);
+
+  if (available < cfg.count) {
+    // Non-blocking notice (console + optional UI)
+    console.info(`Category "${category}" has only ${available} questions; using ${useCount}.`);
+    // If you want a UI notice, you can set a small message element; for now we log it.
+  }
+
+  // Shuffle a copy and slice safely
+  questions = shuffle([...QUESTIONS[category]]).slice(0, useCount);
+
+  if (!questions || questions.length === 0) {
+    console.error("No questions available for category:", category);
+    alert("No questions available for this category. Please choose another.");
+    if (els.difficultyBox) els.difficultyBox.classList.add("hidden");
+    if (els.categoryBox) els.categoryBox.classList.remove("hidden");
+    return;
+  }
+
+  index = 0;
+  score = 0;
+  if (els.score) els.score.textContent = score;
+  if (els.difficultyBox) els.difficultyBox.classList.add("hidden");
+  if (els.quizBox) els.quizBox.classList.remove("hidden");
   loadQuestion();
 }
 
-function loadQuestion(){
+/* ================= LOAD QUESTION ================= */
+function loadQuestion() {
   answered = false;
-  els.options.innerHTML = "";
-  els.explanation.classList.add("hidden");
-  els.next.disabled = true;
+  if (els.options) els.options.innerHTML = "";
+  if (els.explanation) els.explanation.classList.add("hidden");
+  if (els.next) els.next.disabled = true;
+
   const q = questions[index];
-  els.question.textContent = q.q;
+  if (!q) {
+    console.error("loadQuestion: missing question at index", index, "questions:", questions);
+    showResult();
+    return;
+  }
+
+  if (els.question) els.question.textContent = q.q;
+
   q.options.forEach((opt, i) => {
     const b = document.createElement("button");
     b.className = "option";
+    b.type = "button";
     b.textContent = opt;
     b.addEventListener("click", () => selectAnswer(i));
     b.addEventListener("touchstart", () => selectAnswer(i));
-    els.options.appendChild(b);
+    // keyboard accessibility
+    b.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); b.click(); }
+    });
+    if (els.options) els.options.appendChild(b);
   });
-  els.progress.style.width = `${((index + 1) / questions.length) * 100}%`;
+
+  if (els.progress) {
+    const pct = ((index + 1) / questions.length) * 100;
+    els.progress.style.width = `${pct}%`;
+    els.progress.setAttribute("aria-valuenow", Math.round(pct));
+  }
+
   startTimer();
 }
 
-function startTimer(){
+/* ================= TIMER ================= */
+function startTimer() {
   clearInterval(timer);
-  timeLeft = DIFFICULTY[difficulty].time;
-  els.time.textContent = timeLeft;
+  const cfg = DIFFICULTY[difficulty] || DIFFICULTY.easy;
+  timeLeft = cfg.time;
+  if (els.time) els.time.textContent = timeLeft;
   lastTick = performance.now();
   timer = setInterval(() => {
     const now = performance.now();
-    if(now - lastTick >= 1000){
-      timeLeft--; lastTick = now;
-      els.time.textContent = timeLeft;
-      if(timeLeft <= 0){
+    if (now - lastTick >= 1000) {
+      timeLeft--;
+      lastTick = now;
+      if (els.time) els.time.textContent = timeLeft;
+      if (timeLeft <= 0) {
         clearInterval(timer);
         playSound("timeout");
-        els.next.disabled = false;
+        if (els.next) els.next.disabled = false;
       }
     }
   }, 200);
 }
 
-function selectAnswer(sel){
-  if(answered) return;
+/* ================= SELECT ANSWER ================= */
+function selectAnswer(sel) {
+  if (answered) return;
   answered = true;
   clearInterval(timer);
+
   const correct = questions[index].answer;
   const optionButtons = Array.from(document.querySelectorAll(".option"));
   optionButtons.forEach((b, i) => {
     b.disabled = true;
-    if(i === correct) b.classList.add("correct");
-    if(i === sel && i !== correct) b.classList.add("wrong");
+    if (i === correct) b.classList.add("correct");
+    if (i === sel && i !== correct) b.classList.add("wrong");
   });
-  if(sel === correct){
+
+  if (sel === correct) {
     playSound("correct");
-    score++; els.score.textContent = score;
+    score++;
+    if (els.score) els.score.textContent = score;
   } else {
     playSound("wrong");
   }
-  els.explanation.textContent = questions[index].explanation || "";
-  els.explanation.classList.remove("hidden");
-  els.next.disabled = false;
+
+  if (els.explanation) {
+    els.explanation.textContent = questions[index].explanation || "";
+    els.explanation.classList.remove("hidden");
+  }
+
+  if (els.next) els.next.disabled = false;
 }
 
-els.next.addEventListener("click", () => {
-  index++;
-  if(index < questions.length) loadQuestion();
-  else showResult();
-});
+/* ================= NEXT & RESULT ================= */
+if (els.next) {
+  els.next.addEventListener("click", () => {
+    index++;
+    if (index < questions.length) loadQuestion();
+    else showResult();
+  });
+}
 
-function showResult(){
+function showResult() {
   playSound("win");
-  els.quizBox.classList.add("hidden");
-  els.resultBox.classList.remove("hidden");
-  els.finalScore.textContent = `${score} / ${questions.length}`;
+  if (els.quizBox) els.quizBox.classList.add("hidden");
+  if (els.resultBox) els.resultBox.classList.remove("hidden");
+  if (els.finalScore) els.finalScore.textContent = `${score} / ${questions.length}`;
   const key = `best_${category}_${difficulty}`;
   const best = Number(localStorage.getItem(key)) || 0;
-  if(score > best) localStorage.setItem(key, score);
-  els.bestScore.textContent = `Best Score: ${localStorage.getItem(key)}`;
+  if (score > best) localStorage.setItem(key, score);
+  if (els.bestScore) els.bestScore.textContent = `Best Score: ${localStorage.getItem(key)}`;
 }
 
-els.restart.addEventListener("click", () => location.reload());
+/* ================= RESTART ================= */
+if (els.restart) {
+  els.restart.addEventListener("click", () => {
+    // simple reload to reset state and UI
+    location.reload();
+  });
+}
 
-// keyboard accessibility: Enter on focused option triggers click
+/* ================= KEYBOARD ACCESSIBILITY ================= */
 document.addEventListener("keydown", (e) => {
-  if(e.key === "Enter" && document.activeElement && document.activeElement.classList.contains("option")){
+  // "/" focuses search if present (hub-level), but here we ensure Enter triggers focused option
+  if ((e.key === "Enter" || e.key === " ") && document.activeElement && document.activeElement.classList.contains("option")) {
+    e.preventDefault();
     document.activeElement.click();
   }
 });
+
+/* ================= DEBUG HELPERS (optional) ================= */
+function debugState() {
+  console.log({
+    category,
+    difficulty,
+    questionsAvailable: QUESTIONS[category] ? QUESTIONS[category].length : 0,
+    questionsSelected: questions.length,
+    index,
+    score
+  });
+}
+
+/* Expose debugState for console use */
+window.quizDebug = debugState;
+
+/* ================= INITIALIZATION NOTES =================
+ - Ensure your index.html contains category buttons with data-type values matching the QUESTIONS keys:
+   e.g. <button class="category" data-type="fun">Fun</button>
+         <button class="category" data-type="technical">Technical</button>
+         <button class="category" data-type="devops">DevOps</button>
+         <button class="category" data-type="dadjokes">Dad Jokes</button>
+         <button class="category" data-type="mulesoft">MuleSoft</button>
+
+ - Ensure difficulty buttons exist with class "difficulty" and text "Easy", "Medium", "Hard".
+ - If you want every difficulty to always have N questions, expand the QUESTIONS arrays to at least DIFFICULTY.hard.count items.
+ - Use the console helper `quizDebug()` to inspect runtime state while testing.
+*/
