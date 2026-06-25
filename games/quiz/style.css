@@ -1,66 +1,17 @@
-.quiz-game {
-  max-width: 520px;
-  margin: auto;
-  text-align: center;
-}
-
-.hidden { display: none; }
-
-.category, .difficulty, #nextBtn, #restartQuiz, .back-btn {
-  padding: 10px 20px;
-  margin: 6px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  background: #6366f1;
-  color: white;
-}
-
-.category:hover, .difficulty:hover, #nextBtn:hover, #restartQuiz:hover {
-  background: #4f46e5;
-}
-
-.progress {
-  height: 8px;
-  background: #e5e7eb;
-  border-radius: 6px;
-  margin: 12px 0;
-}
-#progressBar {
-  height: 100%;
-  width: 0%;
-  background: #22c55e;
-  border-radius: 6px;
-  transition: width 0.3s ease;
-}
-
-#options { display: grid; gap: 10px; margin: 12px 0; }
-.option {
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  background: #e5e7eb;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-.option:hover { transform: scale(1.03); box-shadow: 0 6px 14px rgba(0,0,0,0.15); }
-.option.correct { background: #22c55e; color: white; animation: pop 0.3s ease; }
-.option.wrong { background: #ef4444; color: white; animation: shake 0.35s ease; }
-
-.explanation {
-  margin-top: 10px;
-  padding: 10px;
-  border-radius: 8px;
-  background: #f1f5f9;
-  font-size: 0.95rem;
-}
-
-.info { margin: 10px 0; }
-
-/* Animations */
-@keyframes pop { 50% { transform: scale(1.08); } }
-@keyframes shake {
-  25% { transform: translateX(-5px); }
-  50% { transform: translateX(5px); }
-  75% { transform: translateX(-5px); }
-}
+:root{--accent:#6366f1;--muted:#6b7280}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Arial;background:#fff;color:#0f172a}
+.container{max-width:720px;margin:18px auto;padding:16px;text-align:center}
+.back-btn{background:transparent;border:none;color:var(--muted);cursor:pointer}
+h1{margin:8px 0 12px}
+.category,.difficulty,.btn{padding:10px 16px;margin:6px;border-radius:10px;border:none;background:var(--accent);color:#fff;cursor:pointer}
+.hidden{display:none}
+.progress{height:8px;background:#e6e9ef;border-radius:8px;margin:12px 0}
+#progressBar{height:100%;width:0;background:#22c55e;border-radius:8px;transition:width .25s ease}
+.options{display:grid;gap:10px;margin:12px 0}
+.option{padding:12px;border-radius:10px;border:none;background:#f1f5f9;cursor:pointer}
+.option.correct{background:#22c55e;color:#fff}
+.option.wrong{background:#ef4444;color:#fff}
+.explanation{margin-top:10px;padding:10px;border-radius:8px;background:#f8fafc}
+.info{margin:10px 0;color:var(--muted)}
+.question{font-weight:600;font-size:1.05rem}
