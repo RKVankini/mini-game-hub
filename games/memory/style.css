@@ -1,66 +1,35 @@
-/* ===============================
-   MEMORY GAME – STABLE FINAL UI
-   =============================== */
-
-.memory-game {
-  text-align: center;
-}
+.memory-game { text-align: center; }
 
 /* GRID */
 .grid {
   display: grid;
-  gap: 18px;
-  max-width: 620px;
-  margin: 30px auto;
+  gap: 12px;
+  max-width: 90vw;
+  margin: 20px auto;
   padding: 10px;
 }
 
-/* CARD – ALWAYS SQUARE (NO CIRCLE BUG) */
+/* CARD */
 .card {
-  aspect-ratio: 1 / 1;
   width: 100%;
-  min-height: 90px;          /* 🔒 prevents early circle render */
-
-  font-size: 3rem;
+  min-height: 80px;
+  font-size: 2.5rem;
   background: #4f46e5;
   color: #ffffff;
-
-  border-radius: 18%;        /* ✅ percentage fixes circle issue */
-
+  border-radius: 12%;
   cursor: pointer;
   user-select: none;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  transform-style: preserve-3d;
-  transform: rotateY(0deg);
-  transition:
-    transform 0.45s ease,
-    background 0.3s ease;
+  transition: transform 0.45s ease, background 0.3s ease;
 }
 
-/* FLIPPED */
-.card.flipped {
-  transform: rotateY(180deg);
-  background: #6366f1;
-}
+.card.flipped { background: #6366f1; }
+.card.matched { background: #22c55e; transform: scale(1.06); }
 
-/* MATCHED */
-.card.matched {
-  background: #22c55e;
-  transform: scale(1.06);
-}
+.status { margin: 14px 0; font-size: 1rem; font-weight: 500; }
 
-/* STATUS */
-.status {
-  margin: 14px 0;
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-/* LEVEL DROPDOWN */
 #level {
   margin: 10px 0 15px;
   padding: 6px 10px;
@@ -68,7 +37,6 @@
   border-radius: 6px;
 }
 
-/* RESTART BUTTON */
 .restart {
   margin-top: 20px;
   padding: 12px 26px;
@@ -79,18 +47,17 @@
   background: #0ea5e9;
   color: #ffffff;
 }
+.restart:hover { background: #0284c7; }
 
-.restart:hover {
-  background: #0284c7;
+/* Modal */
+.modal {
+  position: fixed;
+  top:0; left:0; width:100%; height:100%;
+  background: rgba(0,0,0,0.6);
+  display:flex; align-items:center; justify-content:center;
 }
-
-/* MOBILE */
-@media (max-width: 600px) {
-  .grid {
-    max-width: 92%;
-  }
-
-  .card {
-    font-size: 2.4rem;
-  }
+.modal.hidden { display:none; }
+.modal-content {
+  background:#fff; padding:20px; border-radius:10px;
+  text-align:center;
 }

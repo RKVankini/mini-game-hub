@@ -1,19 +1,33 @@
-<link rel="stylesheet" href="games/memory/style.css" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Memory Game</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <section class="memory-game">
+    <h2>🧠 Memory Game</h2>
+    <select id="level">
+      <option value="4">Easy (4×4)</option>
+      <option value="6">Hard (6×6)</option>
+    </select>
+    <p class="status">
+      Moves: <span id="moves">0</span> | Time: <span id="time">0</span>s
+    </p>
+    <div class="grid" id="grid"></div>
+    <button class="restart" id="restart">🔄 Restart</button>
+  </section>
 
-<section class="memory-game">
-  <h2>🧠 Memory Game</h2>
+  <!-- Modal for win message -->
+  <div id="winModal" class="modal hidden">
+    <div class="modal-content">
+      <p id="winMessage"></p>
+      <button id="closeModal">OK</button>
+    </div>
+  </div>
 
-  <select id="level">
-    <option value="4">Easy (4×4)</option>
-    <option value="6">Hard (6×6)</option>
-  </select>
-
-  <p class="status">
-    Moves: <span id="moves">0</span> |
-    Time: <span id="time">0</span>s
-  </p>
-
-  <div class="grid" id="grid"></div>
-
-  <button class="restart" id="restart">🔄 Restart</button>
-</section>
+  <script src="game.js"></script>
+</body>
+</html>
